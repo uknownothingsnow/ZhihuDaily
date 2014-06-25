@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">知乎日报</string>
+    <string name="drawer_home">首页</string>
+    <string name="drawer_daily_topic">主题日报</string>
+    <string name="drawer_fav">我的收藏</string>
+    <string name="drawer_app">应用推荐</string>
+    <string name="drawer_setting">设置</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
