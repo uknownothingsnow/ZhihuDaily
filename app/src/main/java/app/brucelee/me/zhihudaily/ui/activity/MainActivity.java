@@ -16,10 +16,11 @@ import android.support.v4.widget.DrawerLayout;
 import app.brucelee.me.zhihudaily.ui.fragment.NavigationDrawerFragment;
 import app.brucelee.me.zhihudaily.R;
 import app.brucelee.me.zhihudaily.ZhihuApplication;
+import app.brucelee.me.zhihudaily.ui.fragment.NewsListFragment;
 
 
 public class MainActivity extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, NewsListFragment.OnFragmentInteractionListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -50,9 +51,17 @@ public class MainActivity extends Activity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position))
-                .commit();
+        switch (position) {
+            case 1:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new NewsListFragment())
+                        .commit();
+                break;
+            default:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, PlaceholderFragment.newInstance(position))
+                        .commit();
+        }
     }
 
     public void onSectionAttached(int number) {
@@ -93,6 +102,11 @@ public class MainActivity extends Activity
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFragmentInteraction(String id) {
+
     }
 
     /**

@@ -2,19 +2,22 @@ package app.brucelee.me.zhihudaily;
 
 import android.app.Application;
 
+import retrofit.RestAdapter;
+
 /**
  * Created by bruce on 6/25/14.
  */
 public class ZhihuApplication extends Application {
-    private static ZhihuApplication mInstance;
+    private static ZhihuApplication instance;
 
     private String[] drawerTexts;
     public int[] drawerIcons;
+    private RestAdapter restAdapter;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mInstance = this;
+        instance = this;
 
         drawerTexts = new String[]{
                 this.getString(R.string.drawer_home),
@@ -31,10 +34,14 @@ public class ZhihuApplication extends Application {
                 R.drawable.menu_feture,
                 R.drawable.menu_setting,
         };
+
+        restAdapter = new RestAdapter.Builder()
+                .setEndpoint("http://news-at.zhihu.com/api/3")
+                .build();
     }
 
     public static ZhihuApplication getInstance() {
-        return mInstance;
+        return instance;
     }
 
     public String[] getDrawerTexts() {
@@ -43,5 +50,9 @@ public class ZhihuApplication extends Application {
 
     public int[] getDrawerIcons() {
         return drawerIcons;
+    }
+
+    public RestAdapter getRestAdapter() {
+        return restAdapter;
     }
 }
