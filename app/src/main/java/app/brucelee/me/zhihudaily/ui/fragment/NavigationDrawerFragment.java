@@ -1,4 +1,4 @@
-package app.brucelee.me.zhihudaily;
+package app.brucelee.me.zhihudaily.ui.fragment;
 
 
 import android.app.Activity;
@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import app.brucelee.me.zhihudaily.R;
 import app.brucelee.me.zhihudaily.adapter.DrawerAdapter;
 
 /**
