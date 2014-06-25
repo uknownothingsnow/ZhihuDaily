@@ -3,6 +3,7 @@ package app.brucelee.me.zhihudaily.ui.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import java.util.List;
 import app.brucelee.me.zhihudaily.R;
 
 import app.brucelee.me.zhihudaily.ZhihuApplication;
+import app.brucelee.me.zhihudaily.adapter.NewsAdapter;
 import app.brucelee.me.zhihudaily.bean.LatestNewsList;
 import app.brucelee.me.zhihudaily.service.ZhihuService;
 import app.brucelee.me.zhihudaily.ui.fragment.dummy.DummyContent;
@@ -57,7 +59,7 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private ListAdapter mAdapter;
+    private NewsAdapter mAdapter;
 
     // TODO: Rename and change types of parameters
     public static NewsListFragment newInstance(String param1, String param2) {
@@ -84,19 +86,7 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-        // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);
-
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                LatestNewsList latestNews = service.getLatestNews();
-                Log.d(TAG, "-----------------------news size: " + latestNews.news.size());
-            }
-        }).start();
+        mAdapter = new NewsAdapter(getActivity());
     }
 
     @Override
@@ -107,6 +97,19 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
         ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+        final Handler handler = new Handler();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final LatestNewsList latestNews = service.getLatestNews();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.setNews(latestNews.news);
+                    }
+                });
+            }
+        }).start();
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
