@@ -21,6 +21,7 @@ public class ZhihuApplication extends Application {
                 this.getString(R.string.drawer_daily_topic),
                 this.getString(R.string.drawer_fav),
                 this.getString(R.string.drawer_app),
+                this.getString(R.string.drawer_setting),
         };
 
         drawerIcons = new int[] {
@@ -28,6 +29,7 @@ public class ZhihuApplication extends Application {
                 R.drawable.menu_management,
                 R.drawable.menu_collect,
                 R.drawable.menu_feture,
+                R.drawable.menu_setting,
         };
     }
 
