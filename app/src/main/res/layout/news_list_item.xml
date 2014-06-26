@@ -13,14 +13,14 @@
         android:padding="10dp"
         android:background="@android:color/white">
         <TextView
-            android:id="@+id/tv_new_list_item_title"
+            android:id="@+id/tv_news_list_item_title"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textSize="20dp"
             android:text="1234567890asdfghjkagdg"/>
         <ImageView
-            android:id="@+id/iv_new_list_item_image"
+            android:id="@+id/iv_news_list_item_image"
             android:layout_width="80dp"
             android:layout_height="80dp"/>
     </LinearLayout>

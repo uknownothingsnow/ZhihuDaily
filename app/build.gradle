@@ -33,4 +33,5 @@ dependencies {
     compile 'com.github.gabrielemariotti.cards:library:1.7.3'
     compile 'com.actionbarsherlock:viewpagerindicator:2.4.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.2'
+    compile 'com.jakewharton:butterknife:5.1.1'
 }

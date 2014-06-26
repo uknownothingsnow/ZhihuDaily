@@ -27,31 +27,10 @@ import app.brucelee.me.zhihudaily.service.ZhihuService;
 public class NewsListFragment extends Fragment implements AbsListView.OnItemClickListener {
     ZhihuService service = ZhihuApplication.getInstance().getRestAdapter().create(ZhihuService.class);
     private static final String TAG = "NewsListFragment";
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    private AbsListView mListView;
-
-    private NewsAdapter mAdapter;
+    private OnFragmentInteractionListener listener;
+    private AbsListView listView;
+    private NewsAdapter newsAdapter;
     private TopNewsViewPagerAdapter hotNewsViewPagerAdapter;
-
-    // TODO: Rename and change types of parameters
-    public static NewsListFragment newInstance(String param1, String param2) {
-        NewsListFragment fragment = new NewsListFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     public NewsListFragment() {
     }
@@ -59,12 +38,7 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-        mAdapter = new NewsAdapter(getActivity());
+        newsAdapter = new NewsAdapter(getActivity());
         hotNewsViewPagerAdapter = new TopNewsViewPagerAdapter(getFragmentManager());
     }
 
@@ -78,9 +52,9 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
         CirclePageIndicator indicator = (CirclePageIndicator)headerView.findViewById(R.id.indicator);
         indicator.setViewPager(viewPager);
 
-        mListView = (AbsListView) view.findViewById(android.R.id.list);
-        ((ListView) mListView).addHeaderView(headerView);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+        listView = (AbsListView) view.findViewById(android.R.id.list);
+        ((ListView) listView).addHeaderView(headerView);
+        ((AdapterView<ListAdapter>) listView).setAdapter(newsAdapter);
         final Handler handler = new Handler();
         new Thread(new Runnable() {
             @Override
@@ -89,7 +63,7 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mAdapter.setNews(latestNews.news);
+                        newsAdapter.setNewsList(latestNews.news);
                         hotNewsViewPagerAdapter.setHotNews(latestNews.topNews);
                     }
                 });
@@ -97,7 +71,7 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
         }).start();
 
         // Set OnItemClickListener so we can be notified on item clicks
-        mListView.setOnItemClickListener(this);
+        listView.setOnItemClickListener(this);
 
         return view;
     }
@@ -106,7 +80,7 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            listener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                 + " must implement OnFragmentInteractionListener");
@@ -116,16 +90,16 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        listener = null;
     }
 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (null != mListener) {
+        if (null != listener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction("");
+            listener.onFragmentInteraction("");
         }
     }
 
@@ -135,7 +109,7 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
      * to supply the text it should use.
      */
     public void setEmptyText(CharSequence emptyText) {
-        View emptyView = mListView.getEmptyView();
+        View emptyView = listView.getEmptyView();
 
         if (emptyText instanceof TextView) {
             ((TextView) emptyView).setText(emptyText);
