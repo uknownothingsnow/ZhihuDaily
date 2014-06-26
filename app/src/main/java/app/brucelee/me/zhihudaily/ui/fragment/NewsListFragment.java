@@ -23,6 +23,11 @@ import app.brucelee.me.zhihudaily.adapter.TopNewsViewPagerAdapter;
 import app.brucelee.me.zhihudaily.adapter.NewsAdapter;
 import app.brucelee.me.zhihudaily.bean.LatestNewsList;
 import app.brucelee.me.zhihudaily.service.ZhihuService;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.Options;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 
 public class NewsListFragment extends Fragment implements AbsListView.OnItemClickListener {
     ZhihuService service = ZhihuApplication.getInstance().getRestAdapter().create(ZhihuService.class);
@@ -31,6 +36,7 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
     private AbsListView listView;
     private NewsAdapter newsAdapter;
     private TopNewsViewPagerAdapter hotNewsViewPagerAdapter;
+    @InjectView(R.id.ptr_layout) PullToRefreshLayout pullToRefreshLayout;
 
     public NewsListFragment() {
     }
@@ -46,6 +52,15 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
+        ButterKnife.inject(this, view);
+
+        ActionBarPullToRefresh.from(this.getActivity())
+            .options(Options.create()
+                .scrollDistance(.75f)
+                .build())
+            .allChildrenArePullable()
+            .setup(pullToRefreshLayout);
+
         View headerView = inflater.inflate(R.layout.news_list_header, null, false);
         ViewPager viewPager = (ViewPager) headerView.findViewById(R.id.pager);
         viewPager.setAdapter(hotNewsViewPagerAdapter);

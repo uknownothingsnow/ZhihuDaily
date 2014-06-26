@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ptr_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragment.NewsFragment">
-
+    android:layout_height="match_parent">
+    
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
@@ -18,4 +18,4 @@
         android:layout_height="match_parent"
         android:gravity="center" />
 
-</FrameLayout>
+</uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout>
