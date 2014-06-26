@@ -2,8 +2,8 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:minHeight="250dp"
-              android:layout_height="250dp">
+              android:minHeight="224dp"
+              android:layout_height="224dp">
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
@@ -12,6 +12,7 @@
         android:id="@+id/indicator"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:paddingTop="10dp"
         android:paddingBottom="20dp"
         android:layout_gravity="bottom"/>
 </FrameLayout>
