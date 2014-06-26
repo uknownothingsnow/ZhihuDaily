@@ -3,6 +3,7 @@ package app.brucelee.me.zhihudaily.ui.activity;
 import android.app.Activity;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -46,6 +47,9 @@ public class MainActivity extends FragmentActivity
     public void onNavigationDrawerItemSelected(int position) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (position) {
+            case 0:
+                startActivity(LoginActivity.newIntent());
+                break;
             case 1:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, new NewsListFragment())
@@ -55,6 +59,9 @@ public class MainActivity extends FragmentActivity
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, new TopicListFragment())
                         .commit();
+                break;
+            case 3:
+                startActivity(LoginActivity.newIntent());
                 break;
             default:
                 fragmentManager.beginTransaction()

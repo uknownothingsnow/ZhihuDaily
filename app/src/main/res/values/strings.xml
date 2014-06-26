@@ -12,5 +12,11 @@
     <string name="action_settings">设置</string>
     <string name="topic_subscribed">已关注</string>
     <string name="topic_not_subscribed">关注</string>
+    <string name="login">登录</string>
+    <string name="sina_weibo">新浪微博</string>
+    <string name="tencent_weibo">腾讯微博</string>
+    <string name="login_right">知乎日报不会未经同意通过你的微博账号发布任何信息</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

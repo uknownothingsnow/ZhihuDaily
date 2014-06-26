@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="app.brucelee.me.zhihudaily" >
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -17,6 +18,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:parentActivityName=".ui.activity.MainActivity">
         </activity>
     </application>
 
