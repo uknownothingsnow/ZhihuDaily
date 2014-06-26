@@ -2,4 +2,14 @@
 <resources>
     <color name="gray_divider">#c1c1c1</color>
     <color name="bg_news_list">#f0f0f0</color>
+
+    <color name="subscribe_button_background_light_highlight">#e6e6e6</color>
+    <color name="subscribe_button_background_light_normal">#ffffff</color>
+    <color name="subscribe_button_background_dark_highlight">#303030</color>
+    <color name="subscribe_button_background_dark_normal">#3E3E3E</color>
+    <color name="subscribe_button_unsubscribed_border_light">#00a2ed</color>
+    <color name="subscribe_button_unsubscribed_border_dark">#007cb6</color>
+    <color name="subscribe_button_subscribed_border_light">#666666</color>
+    <color name="subscribe_button_subscribed_border_dark">#707070</color>
+    <color name="list_item_desc_light">#B7B7B7</color>
 </resources>

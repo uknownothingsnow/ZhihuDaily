@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="subscribeButtonBackgroundSubscribed" format="reference" />
+    <attr name="subscribeButtonBackgroundUnsubscribed" format="reference" />
+    <attr name="listItemDescTextColor" format="reference" />
+</resources>

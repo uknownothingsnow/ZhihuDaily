@@ -3,6 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <!-- Customize your theme here. -->
+        <item name="subscribeButtonBackgroundSubscribed">@drawable/btn_subscribe_subscribed_light</item>
+        <item name="subscribeButtonBackgroundUnsubscribed">@drawable/btn_subscribe_unsubscribed_light</item>
+        <item name="listItemDescTextColor">@color/list_item_desc_light</item>
     </style>
 
 </resources>
