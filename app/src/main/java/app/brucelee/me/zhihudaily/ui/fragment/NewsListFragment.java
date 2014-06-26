@@ -23,7 +23,6 @@ import app.brucelee.me.zhihudaily.adapter.TopNewsViewPagerAdapter;
 import app.brucelee.me.zhihudaily.adapter.NewsAdapter;
 import app.brucelee.me.zhihudaily.bean.LatestNewsList;
 import app.brucelee.me.zhihudaily.service.ZhihuService;
-import app.brucelee.me.zhihudaily.ui.fragment.dummy.DummyContent;
 
 public class NewsListFragment extends Fragment implements AbsListView.OnItemClickListener {
     ZhihuService service = ZhihuApplication.getInstance().getRestAdapter().create(ZhihuService.class);
@@ -86,7 +85,7 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final LatestNewsList latestNews = service.getLatestNews();
+                final LatestNewsList latestNews = service.getLatestNewsList();
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -126,7 +125,7 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(DummyContent.ITEMS.get(position).id);
+            mListener.onFragmentInteraction("");
         }
     }
 

@@ -18,19 +18,13 @@ import app.brucelee.me.zhihudaily.ui.fragment.NavigationDrawerFragment;
 import app.brucelee.me.zhihudaily.R;
 import app.brucelee.me.zhihudaily.ZhihuApplication;
 import app.brucelee.me.zhihudaily.ui.fragment.NewsListFragment;
+import app.brucelee.me.zhihudaily.ui.fragment.TopicListFragment;
 
 
 public class MainActivity extends FragmentActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, NewsListFragment.OnFragmentInteractionListener {
-
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
     private CharSequence mTitle;
 
     @Override
@@ -55,6 +49,11 @@ public class MainActivity extends FragmentActivity
             case 1:
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, new NewsListFragment())
+                        .commit();
+                break;
+            case 2:
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new TopicListFragment())
                         .commit();
                 break;
             default:
