@@ -1,5 +1,11 @@
 apply plugin: 'android'
 
+repositories {
+    maven { url 'https://github.com/donnfelker/mvn-repo/raw/master/' }
+    mavenLocal()
+    mavenCentral()
+}
+
 android {
     compileSdkVersion 19
     buildToolsVersion "19.1.0"
@@ -25,4 +31,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.+'
     compile 'com.squareup.retrofit:retrofit:1.6.0'
     compile 'com.github.gabrielemariotti.cards:library:1.7.3'
+    compile 'com.actionbarsherlock:viewpagerindicator:2.4.1'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.2'
 }

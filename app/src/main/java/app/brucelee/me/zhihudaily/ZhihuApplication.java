@@ -2,6 +2,9 @@ package app.brucelee.me.zhihudaily;
 
 import android.app.Application;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 import retrofit.RestAdapter;
 
 /**
@@ -38,6 +41,10 @@ public class ZhihuApplication extends Application {
         restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://news-at.zhihu.com/api/3")
                 .build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+        .build();
+        ImageLoader.getInstance().init(config);
     }
 
     public static ZhihuApplication getInstance() {

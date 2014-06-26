@@ -1,0 +1,13 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragment.HotNewsViewPagerFragment">
+
+    <ImageView
+        android:id="@+id/iv_top_news_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minHeight="120dp"
+        android:scaleType="centerCrop"/>
+</FrameLayout>

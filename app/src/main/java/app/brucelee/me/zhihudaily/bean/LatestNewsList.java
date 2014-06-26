@@ -12,5 +12,5 @@ public class LatestNewsList {
     @SerializedName("stories")
     public List<News> news;
     @SerializedName("top_stories")
-    public List<News> topNews;
+    public List<TopNews> topNews;
 }

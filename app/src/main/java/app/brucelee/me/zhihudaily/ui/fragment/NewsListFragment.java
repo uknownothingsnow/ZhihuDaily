@@ -2,40 +2,29 @@ package app.brucelee.me.zhihudaily.ui.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.os.Handler;
-import android.util.Log;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.List;
+import com.viewpagerindicator.CirclePageIndicator;
 
 import app.brucelee.me.zhihudaily.R;
 
 import app.brucelee.me.zhihudaily.ZhihuApplication;
+import app.brucelee.me.zhihudaily.adapter.TopNewsViewPagerAdapter;
 import app.brucelee.me.zhihudaily.adapter.NewsAdapter;
 import app.brucelee.me.zhihudaily.bean.LatestNewsList;
 import app.brucelee.me.zhihudaily.service.ZhihuService;
 import app.brucelee.me.zhihudaily.ui.fragment.dummy.DummyContent;
-import retrofit.RestAdapter;
-import retrofit.http.GET;
-import retrofit.http.Path;
 
-/**
- * A fragment representing a list of Items.
- * <p />
- * Large screen devices (such as tablets) are supported by replacing the ListView
- * with a GridView.
- * <p />
- * Activities containing this fragment MUST implement the {@link Callbacks}
- * interface.
- */
 public class NewsListFragment extends Fragment implements AbsListView.OnItemClickListener {
     ZhihuService service = ZhihuApplication.getInstance().getRestAdapter().create(ZhihuService.class);
     private static final String TAG = "NewsListFragment";
@@ -50,16 +39,10 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
 
     private OnFragmentInteractionListener mListener;
 
-    /**
-     * The fragment's ListView/GridView.
-     */
     private AbsListView mListView;
 
-    /**
-     * The Adapter which will be used to populate the ListView/GridView with
-     * Views.
-     */
     private NewsAdapter mAdapter;
+    private TopNewsViewPagerAdapter hotNewsViewPagerAdapter;
 
     // TODO: Rename and change types of parameters
     public static NewsListFragment newInstance(String param1, String param2) {
@@ -71,10 +54,6 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
         return fragment;
     }
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public NewsListFragment() {
     }
 
@@ -87,15 +66,21 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         mAdapter = new NewsAdapter(getActivity());
+        hotNewsViewPagerAdapter = new TopNewsViewPagerAdapter(getFragmentManager());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
+        View headerView = inflater.inflate(R.layout.news_list_header, null, false);
+        ViewPager viewPager = (ViewPager) headerView.findViewById(R.id.pager);
+        viewPager.setAdapter(hotNewsViewPagerAdapter);
+        CirclePageIndicator indicator = (CirclePageIndicator)headerView.findViewById(R.id.indicator);
+        indicator.setViewPager(viewPager);
 
-        // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
+        ((ListView) mListView).addHeaderView(headerView);
         ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
         final Handler handler = new Handler();
         new Thread(new Runnable() {
@@ -106,6 +91,7 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
                     @Override
                     public void run() {
                         mAdapter.setNews(latestNews.news);
+                        hotNewsViewPagerAdapter.setHotNews(latestNews.topNews);
                     }
                 });
             }
