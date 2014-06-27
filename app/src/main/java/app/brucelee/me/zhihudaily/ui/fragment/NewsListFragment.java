@@ -1,6 +1,7 @@
 package app.brucelee.me.zhihudaily.ui.fragment;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -28,8 +29,9 @@ import butterknife.InjectView;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.Options;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
-public class NewsListFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class NewsListFragment extends Fragment implements AbsListView.OnItemClickListener, OnRefreshListener {
     ZhihuService service = ZhihuApplication.getInstance().getRestAdapter().create(ZhihuService.class);
     private static final String TAG = "NewsListFragment";
     private OnFragmentInteractionListener listener;
@@ -56,8 +58,9 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
 
         ActionBarPullToRefresh.from(this.getActivity())
             .options(Options.create()
-                .scrollDistance(.75f)
-                .build())
+                    .scrollDistance(.5f)
+                    .build())
+            .listener(this)
             .allChildrenArePullable()
             .setup(pullToRefreshLayout);
 
@@ -85,7 +88,6 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
             }
         }).start();
 
-        // Set OnItemClickListener so we can be notified on item clicks
         listView.setOnItemClickListener(this);
 
         return view;
@@ -112,17 +114,10 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (null != listener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
             listener.onFragmentInteraction("");
         }
     }
 
-    /**
-     * The default content for this Fragment has a TextView that is shown when
-     * the list is empty. If you would like to change the text, call this method
-     * to supply the text it should use.
-     */
     public void setEmptyText(CharSequence emptyText) {
         View emptyView = listView.getEmptyView();
 
@@ -131,16 +126,30 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
         }
     }
 
-    /**
-    * This interface must be implemented by activities that contain this
-    * fragment to allow an interaction in this fragment to be communicated
-    * to the activity and potentially other fragments contained in that
-    * activity.
-    * <p>
-    * See the Android Training lesson <a href=
-    * "http://developer.android.com/training/basics/fragments/communicating.html"
-    * >Communicating with Other Fragments</a> for more information.
-    */
+    @Override
+    public void onRefreshStarted(View view) {
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void result) {
+                super.onPostExecute(result);
+
+                // Notify PullToRefreshLayout that the refresh has finished
+                pullToRefreshLayout.setRefreshComplete();
+            }
+        }.execute();
+    }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
