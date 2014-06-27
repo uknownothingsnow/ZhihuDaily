@@ -15,4 +15,7 @@
     <dimen name="list_item_text_size">18sp</dimen>
     <dimen name="list_item_image_width">90dp</dimen>
     <dimen name="list_item_image_height">72dp</dimen>
+
+    <dimen name="top_image_title_text_size">22sp</dimen>
+    <dimen name="top_image_height">215dp</dimen>
 </resources>

@@ -25,7 +25,9 @@ import app.brucelee.me.zhihudaily.ZhihuApplication;
 import app.brucelee.me.zhihudaily.adapter.TopNewsViewPagerAdapter;
 import app.brucelee.me.zhihudaily.adapter.NewsAdapter;
 import app.brucelee.me.zhihudaily.bean.LatestNewsList;
+import app.brucelee.me.zhihudaily.bean.News;
 import app.brucelee.me.zhihudaily.service.ZhihuService;
+import app.brucelee.me.zhihudaily.ui.activity.NewsDetailActivity;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
@@ -58,24 +60,15 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
         View view = inflater.inflate(R.layout.fragment_news, container, false);
         ButterKnife.inject(this, view);
 
-        ActionBarPullToRefresh.from(this.getActivity())
-            .options(Options.create()
-                    .scrollDistance(.5f)
-                    .build())
-            .listener(this)
-            .allChildrenArePullable()
-            .setup(pullToRefreshLayout);
+        initPullToRefresh();
+        View headerView = initViewPagerIndicator(inflater);
+        initListView(view, headerView);
+        fetchData();
 
-        View headerView = inflater.inflate(R.layout.news_list_header, null, false);
-        ViewPager viewPager = (ViewPager) headerView.findViewById(R.id.pager);
-        viewPager.setAdapter(hotNewsViewPagerAdapter);
-        CirclePageIndicator indicator = (CirclePageIndicator)headerView.findViewById(R.id.indicator);
-        indicator.setViewPager(viewPager);
+        return view;
+    }
 
-        listView = (AbsListView) view.findViewById(android.R.id.list);
-        ((ListView) listView).addHeaderView(headerView);
-        ((AdapterView<ListAdapter>) listView).setAdapter(newsAdapter);
-        listView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), false, true, this));
+    private void fetchData() {
         final Handler handler = new Handler();
         new Thread(new Runnable() {
             @Override
@@ -90,10 +83,40 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
                 });
             }
         }).start();
+    }
 
-        listView.setOnItemClickListener(this);
+    private void initListView(View view, View headerView) {
+        listView = (AbsListView) view.findViewById(android.R.id.list);
+        ((ListView) listView).addHeaderView(headerView);
+        ((AdapterView<ListAdapter>) listView).setAdapter(newsAdapter);
+        listView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), false, true, this));
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                if (position != 0) {
+                    onListItemClick(position - 1);
+                }
+            }
+        });
+    }
 
-        return view;
+    private void initPullToRefresh() {
+        ActionBarPullToRefresh.from(this.getActivity())
+            .options(Options.create()
+                    .scrollDistance(.5f)
+                    .build())
+            .listener(this)
+            .allChildrenArePullable()
+            .setup(pullToRefreshLayout);
+    }
+
+    private View initViewPagerIndicator(LayoutInflater inflater) {
+        View headerView = inflater.inflate(R.layout.news_list_header, null, false);
+        ViewPager viewPager = (ViewPager) headerView.findViewById(R.id.pager);
+        viewPager.setAdapter(hotNewsViewPagerAdapter);
+        CirclePageIndicator indicator = (CirclePageIndicator)headerView.findViewById(R.id.indicator);
+        indicator.setViewPager(viewPager);
+        return headerView;
     }
 
     @Override
@@ -163,8 +186,12 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
 
     }
 
+    public void onListItemClick(final int position) {
+        News news = (News) newsAdapter.getItem(position);
+        startActivity(NewsDetailActivity.newIntent(news.id));
+    }
+
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
     }
 
