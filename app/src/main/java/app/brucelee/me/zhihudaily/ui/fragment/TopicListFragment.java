@@ -8,11 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 import java.util.ArrayList;
 
@@ -28,7 +30,7 @@ import it.gmariotti.cardslib.library.view.CardListView;
 /**
  * Created by bruce on 6/26/14.
  */
-public class TopicListFragment extends Fragment {
+public class TopicListFragment extends Fragment implements AbsListView.OnScrollListener {
     ZhihuService service = ZhihuApplication.getInstance().getRestAdapter().create(ZhihuService.class);
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class TopicListFragment extends Fragment {
 
     private void initCards() {
         final CardListView listView = (CardListView) getActivity().findViewById(R.id.clv_topic_card_list);
+        listView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), false, true, this));
 
         final Handler handler = new Handler();
         new Thread(new Runnable() {
@@ -68,6 +71,16 @@ public class TopicListFragment extends Fragment {
                 });
             }
         }).start();
+
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int i, int i2, int i3) {
 
     }
 

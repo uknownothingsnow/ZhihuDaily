@@ -15,6 +15,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import app.brucelee.me.zhihudaily.R;
@@ -31,7 +33,7 @@ import uk.co.senab.actionbarpulltorefresh.library.Options;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
-public class NewsListFragment extends Fragment implements AbsListView.OnItemClickListener, OnRefreshListener {
+public class NewsListFragment extends Fragment implements AbsListView.OnItemClickListener, OnRefreshListener, AbsListView.OnScrollListener {
     ZhihuService service = ZhihuApplication.getInstance().getRestAdapter().create(ZhihuService.class);
     private static final String TAG = "NewsListFragment";
     private OnFragmentInteractionListener listener;
@@ -73,6 +75,7 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
         listView = (AbsListView) view.findViewById(android.R.id.list);
         ((ListView) listView).addHeaderView(headerView);
         ((AdapterView<ListAdapter>) listView).setAdapter(newsAdapter);
+        listView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), false, true, this));
         final Handler handler = new Handler();
         new Thread(new Runnable() {
             @Override
@@ -148,6 +151,16 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
                 pullToRefreshLayout.setRefreshComplete();
             }
         }.execute();
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int i, int i2, int i3) {
+
     }
 
     public interface OnFragmentInteractionListener {
