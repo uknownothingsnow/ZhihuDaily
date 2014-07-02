@@ -25,6 +25,7 @@ public class LoginPresenterImpl implements LoginPresenter, LoginResultListener {
 
     @Override
     public void onValidationSucceeded() {
+        loginView.showProgress();
         loginInteractor.login(loginView.getEmail(), loginView.getPassword(), this);
     }
 
@@ -51,5 +52,6 @@ public class LoginPresenterImpl implements LoginPresenter, LoginResultListener {
     @Override
     public void onSuccess() {
         Toast.makeText(ZhihuApplication.getInstance(), "登录成功", Toast.LENGTH_LONG).show();
+        loginView.hideProgress();
     }
 }
