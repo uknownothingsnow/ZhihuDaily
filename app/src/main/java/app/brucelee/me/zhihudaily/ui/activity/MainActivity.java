@@ -3,7 +3,6 @@ package app.brucelee.me.zhihudaily.ui.activity;
 import android.app.Activity;
 
 import android.app.ActionBar;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -20,6 +19,7 @@ import app.brucelee.me.zhihudaily.R;
 import app.brucelee.me.zhihudaily.ZhihuApplication;
 import app.brucelee.me.zhihudaily.ui.fragment.NewsListFragment;
 import app.brucelee.me.zhihudaily.ui.fragment.TopicListFragment;
+import app.brucelee.me.zhihudaily.ui.login.LoginActivity;
 
 
 public class MainActivity extends FragmentActivity

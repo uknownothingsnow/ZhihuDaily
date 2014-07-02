@@ -5,6 +5,10 @@ import android.app.Application;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import java.util.Arrays;
+import java.util.List;
+
+import dagger.ObjectGraph;
 import retrofit.RestAdapter;
 
 /**
@@ -12,6 +16,7 @@ import retrofit.RestAdapter;
  */
 public class ZhihuApplication extends Application {
     private static ZhihuApplication instance;
+    private ObjectGraph objectGraph;
 
     private String[] drawerTexts;
     public int[] drawerIcons;
@@ -45,6 +50,13 @@ public class ZhihuApplication extends Application {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
         .build();
         ImageLoader.getInstance().init(config);
+
+        objectGraph = ObjectGraph.create(getModules().toArray());
+        objectGraph.inject(this);
+    }
+
+    private List<Object> getModules() {
+        return Arrays.<Object>asList(new AppModule(this));
     }
 
     public static ZhihuApplication getInstance() {
@@ -61,5 +73,9 @@ public class ZhihuApplication extends Application {
 
     public RestAdapter getRestAdapter() {
         return restAdapter;
+    }
+
+    public ObjectGraph createScopedGraph(Object... modules) {
+        return objectGraph.plus(modules);
     }
 }

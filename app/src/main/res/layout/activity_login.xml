@@ -1,106 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginLeft="32dp"
+    android:layout_marginRight="32dp">
 
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/login_bg"
-        android:scaleType="centerCrop" />
-
-    <ImageView
-        android:src="@drawable/splash_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/login_text"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="80dp" />
-
-    <TextView
-        android:id="@+id/login_text"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/login"
-        android:textSize="@dimen/text_size_medium"
-        android:textColor="#D0F1FF" />
+        android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/sina_weibo_login"
-        android:background="@drawable/btn_rounded_corner"
-        android:layout_below="@+id/login_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:padding="12dp"
-        android:clickable="true"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:src="@drawable/account_sina"
-            android:layout_toLeftOf="@+id/sina_weibo_textview"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp" />
+            android:layout_marginBottom="16dp"
+            android:inputType="textEmailAddress"
+            android:hint="@string/email" />
 
-        <TextView
-            android:id="@+id/sina_weibo_textview"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerInParent="true"
-            android:text="@string/sina_weibo"
-            android:textSize="@dimen/text_size_medium"
-            android:textColor="#333333" />
-    </RelativeLayout>
+            android:layout_marginBottom="16dp"
+            android:inputType="textPassword"
+            android:hint="@string/password" />
 
-    <RelativeLayout
-        android:id="@+id/tencent_weibo_login"
-        android:background="@drawable/btn_rounded_corner"
-        android:layout_below="@+id/sina_weibo_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:clickable="true"
-        android:orientation="horizontal">
+        <com.dd.processbutton.iml.ActionProcessButton
+            android:id="@+id/btn_sign_in"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/sign_in"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            custom:pb_colorComplete="@color/green_complete"
+            custom:pb_colorNormal="@color/blue_normal"
+            custom:pb_colorPressed="@color/blue_pressed"
+            custom:pb_colorProgress="@color/purple_progress"/>
 
-        <ImageView
-            android:src="@drawable/account_tencent"
-            android:layout_toLeftOf="@+id/tencent_weibo_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp" />
-
-        <TextView
-            android:id="@+id/tencent_weibo_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerInParent="true"
-            android:text="@string/tencent_weibo"
-            android:textSize="@dimen/text_size_medium"
-            android:textColor="#333333" />
-    </RelativeLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:text="@string/login_right"
-        android:textSize="@dimen/text_size_micro"
-        android:textColor="#52BDEA" />
+    </LinearLayout>
 
 </RelativeLayout>

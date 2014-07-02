@@ -17,5 +17,8 @@
     <string name="tencent_weibo">腾讯微博</string>
     <string name="login_right">知乎日报不会未经同意通过你的微博账号发布任何信息</string>
     <string name="title_activity_login">登录</string>
+    <string name="email">邮箱</string>
+    <string name="password">密码</string>
+    <string name="sign_in">登录</string>
 
 </resources>
