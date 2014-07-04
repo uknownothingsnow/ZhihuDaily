@@ -1,4 +1,4 @@
-package app.brucelee.me.zhihudaily.ui.activity;
+package app.brucelee.me.zhihudaily.ui.main;
 
 import android.app.Activity;
 
@@ -23,7 +23,7 @@ import app.brucelee.me.zhihudaily.ui.login.LoginActivity;
 
 
 public class MainActivity extends FragmentActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, NewsListFragment.OnFragmentInteractionListener {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, NewsListFragment.OnFragmentInteractionListener, MainView {
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
     private CharSequence mTitle;
