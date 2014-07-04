@@ -13,4 +13,8 @@ public class InteractorsModule {
     @Provides public LoginInteractor provideLoginInteractor() {
         return new LoginInteractorImpl();
     }
+
+    @Provides public MainInteractor provideMainInteractor() {
+        return new MainInteractorImpl();
+    }
 }

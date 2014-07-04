@@ -52,7 +52,6 @@ public class ZhihuApplication extends Application {
         ImageLoader.getInstance().init(config);
 
         objectGraph = ObjectGraph.create(getModules().toArray());
-        objectGraph.inject(this);
     }
 
     private List<Object> getModules() {

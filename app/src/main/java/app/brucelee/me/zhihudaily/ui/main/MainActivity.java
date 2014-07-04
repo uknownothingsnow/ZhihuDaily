@@ -14,6 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 
+import java.util.Arrays;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import app.brucelee.me.zhihudaily.ui.BaseActivity;
 import app.brucelee.me.zhihudaily.ui.fragment.NavigationDrawerFragment;
 import app.brucelee.me.zhihudaily.R;
 import app.brucelee.me.zhihudaily.ZhihuApplication;
@@ -22,11 +28,13 @@ import app.brucelee.me.zhihudaily.ui.fragment.TopicListFragment;
 import app.brucelee.me.zhihudaily.ui.login.LoginActivity;
 
 
-public class MainActivity extends FragmentActivity
+public class MainActivity extends BaseActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, NewsListFragment.OnFragmentInteractionListener, MainView {
     private NavigationDrawerFragment mNavigationDrawerFragment;
 
     private CharSequence mTitle;
+
+    @Inject MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +49,11 @@ public class MainActivity extends FragmentActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+    }
+
+    @Override
+    protected List<Object> getModules() {
+        return Arrays.<Object>asList(new MainModule(this));
     }
 
     @Override
