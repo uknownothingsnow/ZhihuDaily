@@ -11,7 +11,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import app.brucelee.me.zhihudaily.ui.BaseActivity;
-import app.brucelee.me.zhihudaily.ui.fragment.NavigationDrawerFragment;
+import app.brucelee.me.zhihudaily.ui.drawer.DrawerFragment;
 import app.brucelee.me.zhihudaily.R;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -19,7 +19,7 @@ import butterknife.InjectView;
 
 public class MainActivity extends BaseActivity implements MainView {
 
-    private NavigationDrawerFragment navigationDrawerFragment;
+    private DrawerFragment navigationDrawerFragment;
     @InjectView(R.id.drawer_layout) DrawerLayout drawerLayout;
 
     @Inject MainPresenter presenter;
@@ -30,14 +30,14 @@ public class MainActivity extends BaseActivity implements MainView {
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
-        navigationDrawerFragment = (NavigationDrawerFragment)
-                getFragmentManager().findFragmentById(R.id.navigation_drawer);
+        navigationDrawerFragment = (DrawerFragment)
+                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
         navigationDrawerFragment.setUp(R.id.navigation_drawer, drawerLayout);
     }
 
     @Override
-    protected List<Object> getModules() {
+    public List<Object> getModules() {
         return Arrays.<Object>asList(new MainModule(this));
     }
 
@@ -59,7 +59,7 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     @Override
-    public NavigationDrawerFragment getNavigationDrawerFragment() {
+    public DrawerFragment getNavigationDrawerFragment() {
         return navigationDrawerFragment;
     }
 

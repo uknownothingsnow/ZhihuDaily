@@ -1,4 +1,4 @@
-package app.brucelee.me.zhihudaily.ui.fragment;
+package app.brucelee.me.zhihudaily.ui.drawer;
 
 
 import android.app.Activity;
@@ -23,15 +23,19 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.Arrays;
+import java.util.List;
+
 import app.brucelee.me.zhihudaily.R;
 import app.brucelee.me.zhihudaily.adapter.DrawerAdapter;
+import app.brucelee.me.zhihudaily.ui.BaseFragment;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
  * See the <a href="https://developer.android.com/design/patterns/navigation-drawer.html#Interaction">
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
-public class NavigationDrawerFragment extends Fragment {
+public class DrawerFragment extends BaseFragment implements DrawerView {
 
     /**
      * Remember the position of the selected item.
@@ -62,7 +66,7 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
-    public NavigationDrawerFragment() {
+    public DrawerFragment() {
     }
 
     @Override
@@ -262,6 +266,11 @@ public class NavigationDrawerFragment extends Fragment {
 
     private ActionBar getActionBar() {
         return getActivity().getActionBar();
+    }
+
+    @Override
+    public List<Object> getModules() {
+        return Arrays.<Object>asList(new DrawerModule(this));
     }
 
     /**

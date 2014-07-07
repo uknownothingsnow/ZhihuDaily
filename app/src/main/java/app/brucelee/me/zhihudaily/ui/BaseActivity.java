@@ -12,7 +12,7 @@ import dagger.ObjectGraph;
 /**
  * Created by bruce on 7/2/14.
  */
-public abstract class BaseActivity extends FragmentActivity {
+public abstract class BaseActivity extends FragmentActivity implements Moduable {
     private ObjectGraph activityGraph;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,4 @@ public abstract class BaseActivity extends FragmentActivity {
         super.onDestroy();
         activityGraph = null;
     }
-
-    protected abstract List<Object> getModules();
 }

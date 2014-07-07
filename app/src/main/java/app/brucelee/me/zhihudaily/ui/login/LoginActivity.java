@@ -60,7 +60,7 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
     }
 
     @Override
-    protected List<Object> getModules() {
+    public List<Object> getModules() {
         return Arrays.<Object>asList(new LoginModule(this));
     }
 
