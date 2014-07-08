@@ -1,4 +1,5 @@
 apply plugin: 'android'
+apply plugin: 'hugo'
 
 repositories {
     maven { url 'https://github.com/donnfelker/mvn-repo/raw/master/' }

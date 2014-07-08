@@ -11,18 +11,22 @@ import dagger.ObjectGraph;
  */
 public abstract class BaseFragment extends Fragment implements Moduable {
 
-    private ObjectGraph activityGraph;
+    private ObjectGraph fragmentGraph;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        activityGraph = ((ZhihuApplication) activity.getApplication()).createScopedGraph(getModules().toArray());
-        activityGraph.inject(this);
+        fragmentGraph = ((ZhihuApplication) activity.getApplication()).createScopedGraph(getModules().toArray());
+        fragmentGraph.inject(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        activityGraph = null;
+        fragmentGraph = null;
+    }
+
+    public ObjectGraph getFragmentGraph() {
+        return fragmentGraph;
     }
 }

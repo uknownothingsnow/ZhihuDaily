@@ -3,7 +3,6 @@ package app.brucelee.me.zhihudaily.ui.drawer;
 
 import android.app.Activity;
 import android.app.ActionBar;
-import android.app.Fragment;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,16 +17,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.List;
 
 import app.brucelee.me.zhihudaily.R;
-import app.brucelee.me.zhihudaily.adapter.DrawerAdapter;
 import app.brucelee.me.zhihudaily.ui.BaseFragment;
 
 /**
@@ -107,7 +103,7 @@ public class DrawerFragment extends BaseFragment implements DrawerView {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new DrawerAdapter(getActionBar().getThemedContext()));
+        mDrawerListView.setAdapter(new DrawerAdapter(getActionBar().getThemedContext(), getFragmentGraph()));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
