@@ -19,7 +19,7 @@ import app.brucelee.me.zhihudaily.ui.fragment.TopNewsFragment;
 public class TopNewsViewPagerAdapter extends FragmentPagerAdapter implements IconPagerAdapter {
     private List<TopNews> hotNews = new ArrayList<TopNews>();
 
-    public void setHotNews(List<TopNews> hotNews) {
+    public void setTopNews(List<TopNews> hotNews) {
         this.hotNews = hotNews;
         notifyDataSetChanged();
     }

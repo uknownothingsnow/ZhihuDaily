@@ -3,15 +3,12 @@ package app.brucelee.me.zhihudaily.ui.newsList;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,25 +26,23 @@ import app.brucelee.me.zhihudaily.R;
 import app.brucelee.me.zhihudaily.ZhihuApplication;
 import app.brucelee.me.zhihudaily.adapter.TopNewsViewPagerAdapter;
 import app.brucelee.me.zhihudaily.adapter.NewsAdapter;
-import app.brucelee.me.zhihudaily.bean.LatestNewsList;
 import app.brucelee.me.zhihudaily.bean.News;
+import app.brucelee.me.zhihudaily.bean.TopNews;
 import app.brucelee.me.zhihudaily.service.ZhihuService;
 import app.brucelee.me.zhihudaily.ui.BaseFragment;
-import app.brucelee.me.zhihudaily.ui.activity.NewsDetailActivity;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.Options;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
-import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
 public class NewsListFragment extends BaseFragment implements NewsListView {
     ZhihuService service = ZhihuApplication.getInstance().getRestAdapter().create(ZhihuService.class);
     private static final String TAG = "NewsListFragment";
     private OnFragmentInteractionListener listener;
-    private AbsListView listView;
+    @InjectView(android.R.id.list) ListView listView;
     private NewsAdapter newsAdapter;
-    private TopNewsViewPagerAdapter hotNewsViewPagerAdapter;
+    private TopNewsViewPagerAdapter topNewsViewPagerAdapter;
     @InjectView(R.id.ptr_layout) PullToRefreshLayout pullToRefreshLayout;
     @Inject NewsListPresenter presenter;
 
@@ -58,7 +53,7 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         newsAdapter = new NewsAdapter(getActivity());
-        hotNewsViewPagerAdapter = new TopNewsViewPagerAdapter(getFragmentManager());
+        topNewsViewPagerAdapter = new TopNewsViewPagerAdapter(getFragmentManager());
     }
 
     @Override
@@ -69,42 +64,42 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
 
         initPullToRefresh();
         View headerView = initViewPagerIndicator(inflater);
-        initListView(view, headerView);
-        fetchData();
+        initListView(headerView);
 
         return view;
     }
 
-    private void fetchData() {
-        final Handler handler = new Handler();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final LatestNewsList latestNews = service.getLatestNewsList();
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        newsAdapter.setNewsList(latestNews.news);
-                        hotNewsViewPagerAdapter.setHotNews(latestNews.topNews);
-                    }
-                });
-            }
-        }).start();
-    }
-
-    private void initListView(View view, View headerView) {
-        listView = (AbsListView) view.findViewById(android.R.id.list);
+    private void initListView(View headerView) {
+        listView.setAdapter(newsAdapter);
         ((ListView) listView).addHeaderView(headerView);
-        ((AdapterView<ListAdapter>) listView).setAdapter(newsAdapter);
         listView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), false, true, this));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 if (position != 0) {
-                    onListItemClick(position - 1);
+                    presenter.onListItemClick(position - 1);
                 }
             }
         });
+    }
+
+    @Override
+    public ListView getListView() {
+        return listView;
+    }
+
+    @Override
+    public void setNewsItems(List<News> newsList, List<TopNews> topNewsList) {
+        newsAdapter.setNewsList(newsList);
+        newsAdapter.notifyDataSetChanged();
+
+        topNewsViewPagerAdapter.setTopNews(topNewsList);
+        topNewsViewPagerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public NewsAdapter getNewsAdapter() {
+        return newsAdapter;
     }
 
     private void initPullToRefresh() {
@@ -120,7 +115,7 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
     private View initViewPagerIndicator(LayoutInflater inflater) {
         View headerView = inflater.inflate(R.layout.news_list_header, null, false);
         ViewPager viewPager = (ViewPager) headerView.findViewById(R.id.pager);
-        viewPager.setAdapter(hotNewsViewPagerAdapter);
+        viewPager.setAdapter(topNewsViewPagerAdapter);
         CirclePageIndicator indicator = (CirclePageIndicator)headerView.findViewById(R.id.indicator);
         indicator.setViewPager(viewPager);
         return headerView;
@@ -191,11 +186,6 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
     @Override
     public void onScroll(AbsListView absListView, int i, int i2, int i3) {
 
-    }
-
-    public void onListItemClick(final int position) {
-        News news = (News) newsAdapter.getItem(position);
-        startActivity(NewsDetailActivity.newIntent(news.id));
     }
 
     @Override

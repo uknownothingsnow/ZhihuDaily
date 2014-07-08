@@ -112,6 +112,9 @@ public class NewsDetailActivity extends Activity {
                 "\n" +
                 "\n" +
                 "</div>";
+        if (newsDetail.body == null) {
+            return "";
+        }
         return newsDetail.body.replaceFirst("<div class=\"img-place-holder\"></div>", image);
     }
 
