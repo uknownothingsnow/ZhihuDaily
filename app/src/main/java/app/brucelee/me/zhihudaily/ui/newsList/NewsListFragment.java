@@ -1,4 +1,4 @@
-package app.brucelee.me.zhihudaily.ui.fragment;
+package app.brucelee.me.zhihudaily.ui.newsList;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -19,6 +19,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.viewpagerindicator.CirclePageIndicator;
 
+import java.util.Arrays;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import app.brucelee.me.zhihudaily.R;
 
 import app.brucelee.me.zhihudaily.ZhihuApplication;
@@ -27,6 +32,7 @@ import app.brucelee.me.zhihudaily.adapter.NewsAdapter;
 import app.brucelee.me.zhihudaily.bean.LatestNewsList;
 import app.brucelee.me.zhihudaily.bean.News;
 import app.brucelee.me.zhihudaily.service.ZhihuService;
+import app.brucelee.me.zhihudaily.ui.BaseFragment;
 import app.brucelee.me.zhihudaily.ui.activity.NewsDetailActivity;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -35,7 +41,7 @@ import uk.co.senab.actionbarpulltorefresh.library.Options;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
-public class NewsListFragment extends Fragment implements AbsListView.OnItemClickListener, OnRefreshListener, AbsListView.OnScrollListener {
+public class NewsListFragment extends BaseFragment implements NewsListView {
     ZhihuService service = ZhihuApplication.getInstance().getRestAdapter().create(ZhihuService.class);
     private static final String TAG = "NewsListFragment";
     private OnFragmentInteractionListener listener;
@@ -43,6 +49,7 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
     private NewsAdapter newsAdapter;
     private TopNewsViewPagerAdapter hotNewsViewPagerAdapter;
     @InjectView(R.id.ptr_layout) PullToRefreshLayout pullToRefreshLayout;
+    @Inject NewsListPresenter presenter;
 
     public NewsListFragment() {
     }
@@ -189,6 +196,11 @@ public class NewsListFragment extends Fragment implements AbsListView.OnItemClic
     public void onListItemClick(final int position) {
         News news = (News) newsAdapter.getItem(position);
         startActivity(NewsDetailActivity.newIntent(news.id));
+    }
+
+    @Override
+    public List<Object> getModules() {
+        return Arrays.<Object>asList(new NewsListModule(this));
     }
 
     public interface OnFragmentInteractionListener {
