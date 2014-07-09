@@ -25,7 +25,7 @@
             android:parentActivityName=".ui.main.MainActivity" >
         </activity>
         <activity
-            android:name=".ui.activity.NewsDetailActivity"
+            android:name=".ui.newsDetail.NewsDetailActivity"
             android:parentActivityName=".ui.main.MainActivity"
             android:label="">
             <meta-data

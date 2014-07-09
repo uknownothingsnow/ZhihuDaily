@@ -7,7 +7,7 @@ import java.util.List;
 import app.brucelee.me.zhihudaily.bean.News;
 import app.brucelee.me.zhihudaily.bean.TopNews;
 import app.brucelee.me.zhihudaily.interactor.NewsListInteractor;
-import app.brucelee.me.zhihudaily.ui.activity.NewsDetailActivity;
+import app.brucelee.me.zhihudaily.ui.newsDetail.NewsDetailActivity;
 
 /**
  * Created by bruce on 7/8/14.

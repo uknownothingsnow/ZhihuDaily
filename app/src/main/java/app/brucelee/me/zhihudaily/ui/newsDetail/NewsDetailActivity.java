@@ -8,19 +8,26 @@ import android.view.MenuItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import java.util.Arrays;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import app.brucelee.me.zhihudaily.R;
 import app.brucelee.me.zhihudaily.ZhihuApplication;
 import app.brucelee.me.zhihudaily.bean.NewsDetail;
 import app.brucelee.me.zhihudaily.service.ZhihuService;
 import app.brucelee.me.zhihudaily.support.MyAsyncTask;
+import app.brucelee.me.zhihudaily.ui.BaseActivity;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class NewsDetailActivity extends Activity {
+public class NewsDetailActivity extends BaseActivity implements NewsDetailView {
     public static final String INTENT_NEWS_ID = "news_id";
     private static final String TAG = "NewsDetailActivity";
     private long newsId;
     @InjectView(R.id.wv_news_content) WebView webView;
+    @Inject NewsDetailPresenter presenter;
 
     public static Intent newIntent(long newsId) {
         Intent intent = new Intent(ZhihuApplication.getInstance(), NewsDetailActivity.class);
@@ -125,6 +132,11 @@ public class NewsDetailActivity extends Activity {
             sb.append("<script src=\"").append(js).append("\" />");
         }
         return sb.toString();
+    }
+
+    @Override
+    public List<Object> getModules() {
+        return Arrays.<Object>asList(new NewsDetailModule(this));
     }
 
     private class NewsDetailTask extends MyAsyncTask<Void, Void, NewsDetail> {
