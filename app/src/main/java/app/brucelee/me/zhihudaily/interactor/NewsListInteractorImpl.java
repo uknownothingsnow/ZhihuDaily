@@ -14,6 +14,7 @@ import app.brucelee.me.zhihudaily.ui.newsList.OnFetchedListener;
 public class NewsListInteractorImpl implements NewsListInteractor {
 
     ZhihuService service;
+    final Handler handler = new Handler();
 
     public NewsListInteractorImpl(ZhihuService service) {
         this.service = service;
@@ -21,7 +22,6 @@ public class NewsListInteractorImpl implements NewsListInteractor {
 
     @Override
     public void fetchItems(final OnFetchedListener listener) {
-        final Handler handler = new Handler();
         new Thread(new Runnable() {
             @Override
             public void run() {

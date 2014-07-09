@@ -3,6 +3,7 @@ package app.brucelee.me.zhihudaily.ui.newsDetail;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebSettings;
@@ -44,7 +45,10 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailView {
         if (null != extras) {
             newsId = extras.getLong(INTENT_NEWS_ID);
         }
-        new NewsDetailTask().executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+        WebSettings webSettings = webView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setDefaultTextEncodingName("utf-8");
+        presenter.fetch();
     }
 
 
@@ -64,94 +68,19 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailView {
         return super.onOptionsItemSelected(item);
     }
 
-    private void showNewsDetail(NewsDetail newsDetail) {
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setDefaultTextEncodingName("utf-8");
-        String newContent = getCustomerCss() + buildCssAndJs(newsDetail) + insertHeaderImage(newsDetail);
-        webView.loadData(newContent, "text/html; charset=UTF-8", null);
-    }
-
-    private String getCustomerCss() {
-        return "<style type=\"text/css\">\n" +
-                "\t.headline .img-wrap {\n" +
-                "\t\tposition: relative;\n" +
-                "\t\tmax-height: 375px;\n" +
-                "\t\toverflow: hidden;\n" +
-                "\t}\n" +
-                "\n" +
-                "\t.headline .headline-title {\n" +
-                "\t\tmargin: 20px 0;\n" +
-                "\t\tbottom: 10px;\n" +
-                "\t\tz-index: 1;\n" +
-                "\t\tposition: absolute;\n" +
-                "\t\tcolor: white;\n" +
-                "\t\ttext-shadow: 0px 1px 2px rgba(0,0,0,0.3);\n" +
-                "\t}\n" +
-                "\n" +
-                "\t.headline .img-source {\n" +
-                "\t\tposition: absolute;\n" +
-                "\t\tbottom: 10px;\n" +
-                "\t\tz-index: 1;\n" +
-                "\t\tfont-size: 12px;\n" +
-                "\t\tcolor: rgba(255,255,255,.6);\n" +
-                "\t\tright: 40px;\n" +
-                "\t\ttext-shadow: 0px 1px 2px rgba(0,0,0,.3);\n" +
-                "\t}\n" +
-                "</style>";
-    }
-
-    private String insertHeaderImage(NewsDetail newsDetail) {
-        String image = "<div class=\"headline\">\n" +
-                "\n" +
-                "<div class=\"img-wrap\">\n" +
-                "<h1 class=\"headline-title\">" + newsDetail.title + "</h1>\n" +
-                "\n" +
-                "\n" +
-                "<span class=\"img-source\">图片：Lily / CC BY</span>\n" +
-                "\n" +
-                "\n" +
-                "<img src=\"" + newsDetail.image + "\" alt=\"\">\n" +
-                "</div>\n" +
-                "\n" +
-                "\n" +
-                "</div>";
-        if (newsDetail.body == null) {
-            return "";
-        }
-        return newsDetail.body.replaceFirst("<div class=\"img-place-holder\"></div>", image);
-    }
-
-    private String buildCssAndJs(NewsDetail newsDetail) {
-        StringBuilder sb = new StringBuilder();
-        for (String css : newsDetail.css) {
-            sb.append("<link rel=\"stylesheet\" href=\"").append(css).append("\" />");
-        }
-
-        for (String js : newsDetail.js) {
-            sb.append("<script src=\"").append(js).append("\" />");
-        }
-        return sb.toString();
-    }
-
     @Override
     public List<Object> getModules() {
         return Arrays.<Object>asList(new NewsDetailModule(this));
     }
 
-    private class NewsDetailTask extends MyAsyncTask<Void, Void, NewsDetail> {
-
-        @Override
-        protected NewsDetail doInBackground(Void... params) {
-            ZhihuService service = ZhihuApplication.getInstance().getRestAdapter().create(ZhihuService.class);
-            return service.getNewsDetail(newsId);
-        }
-
-        @Override
-        protected void onPostExecute(NewsDetail newsDetail) {
-            if (null != newsDetail) {
-                showNewsDetail(newsDetail);
-            }
-        }
+    @Override
+    public WebView getWebView() {
+        return webView;
     }
+
+    @Override
+    public long getId() {
+        return newsId;
+    }
+
 }

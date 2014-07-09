@@ -3,6 +3,7 @@ package app.brucelee.me.zhihudaily.ui.newsDetail;
 import javax.inject.Singleton;
 
 import app.brucelee.me.zhihudaily.AppModule;
+import app.brucelee.me.zhihudaily.interactor.NewsDetailInteractor;
 import dagger.Module;
 import dagger.Provides;
 
@@ -11,8 +12,7 @@ import dagger.Provides;
  */
 @Module(
         injects = NewsDetailActivity.class,
-        addsTo = AppModule.class,
-        library = true
+        addsTo = AppModule.class
 )
 public class NewsDetailModule {
 
@@ -26,7 +26,7 @@ public class NewsDetailModule {
         return view;
     }
 
-    @Provides @Singleton NewsDetailPresenter provideNewsDetailPresenter(NewsDetailView view) {
-        return new NewsDetailPresenterImpl(view);
+    @Provides @Singleton NewsDetailPresenter provideNewsDetailPresenter(NewsDetailView view, NewsDetailInteractor interactor) {
+        return new NewsDetailPresenterImpl(view, interactor);
     }
 }
