@@ -75,7 +75,7 @@ public class NewsAdapter extends BaseAdapter {
 
         public void updateView(News news) {
             title.setText(news.title);
-            if (news.images.size() != 0) {
+            if (null != news.images && news.images.size() != 0) {
                 ImageLoader.getInstance().displayImage(news.images.get(0), image);
             }
         }
