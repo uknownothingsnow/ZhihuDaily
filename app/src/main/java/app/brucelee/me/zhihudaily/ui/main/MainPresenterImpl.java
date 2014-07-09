@@ -7,7 +7,7 @@ import android.view.Menu;
 import app.brucelee.me.zhihudaily.R;
 import app.brucelee.me.zhihudaily.interactor.MainInteractor;
 import app.brucelee.me.zhihudaily.ui.newsList.NewsListFragment;
-import app.brucelee.me.zhihudaily.ui.fragment.TopicListFragment;
+import app.brucelee.me.zhihudaily.ui.topicList.TopicListFragment;
 import app.brucelee.me.zhihudaily.ui.login.LoginActivity;
 
 /**

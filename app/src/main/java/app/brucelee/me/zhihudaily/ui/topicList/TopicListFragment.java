@@ -1,4 +1,4 @@
-package app.brucelee.me.zhihudaily.ui.fragment;
+package app.brucelee.me.zhihudaily.ui.topicList;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,12 +17,16 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import app.brucelee.me.zhihudaily.R;
 import app.brucelee.me.zhihudaily.ZhihuApplication;
 import app.brucelee.me.zhihudaily.bean.Topic;
 import app.brucelee.me.zhihudaily.bean.TopicList;
 import app.brucelee.me.zhihudaily.service.ZhihuService;
+import app.brucelee.me.zhihudaily.ui.BaseActivity;
+import app.brucelee.me.zhihudaily.ui.BaseFragment;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
@@ -30,7 +34,7 @@ import it.gmariotti.cardslib.library.view.CardListView;
 /**
  * Created by bruce on 6/26/14.
  */
-public class TopicListFragment extends Fragment implements AbsListView.OnScrollListener {
+public class TopicListFragment extends BaseFragment implements AbsListView.OnScrollListener, TopicListView {
     ZhihuService service = ZhihuApplication.getInstance().getRestAdapter().create(ZhihuService.class);
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,6 +86,11 @@ public class TopicListFragment extends Fragment implements AbsListView.OnScrollL
     @Override
     public void onScroll(AbsListView absListView, int i, int i2, int i3) {
 
+    }
+
+    @Override
+    public List<Object> getModules() {
+        return Arrays.<Object>asList(new TopicListModule(this));
     }
 
     public class CardExample extends Card{
