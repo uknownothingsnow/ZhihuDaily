@@ -9,9 +9,7 @@ import com.viewpagerindicator.IconPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.brucelee.me.zhihudaily.bean.News;
 import app.brucelee.me.zhihudaily.bean.TopNews;
-import app.brucelee.me.zhihudaily.ui.fragment.TopNewsFragment;
 
 /**
  * Created by bruce on 6/26/14.
