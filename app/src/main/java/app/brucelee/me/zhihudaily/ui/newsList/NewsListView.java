@@ -5,7 +5,6 @@ import android.widget.ListView;
 
 import java.util.List;
 
-import app.brucelee.me.zhihudaily.adapter.NewsAdapter;
 import app.brucelee.me.zhihudaily.bean.News;
 import app.brucelee.me.zhihudaily.bean.TopNews;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;

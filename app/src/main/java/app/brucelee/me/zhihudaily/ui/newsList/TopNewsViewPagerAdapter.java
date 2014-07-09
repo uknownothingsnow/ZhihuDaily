@@ -1,4 +1,4 @@
-package app.brucelee.me.zhihudaily.adapter;
+package app.brucelee.me.zhihudaily.ui.newsList;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

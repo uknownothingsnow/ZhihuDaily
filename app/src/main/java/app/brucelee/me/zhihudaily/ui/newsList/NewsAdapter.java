@@ -1,4 +1,4 @@
-package app.brucelee.me.zhihudaily.adapter;
+package app.brucelee.me.zhihudaily.ui.newsList;
 
 import android.content.Context;
 import android.view.LayoutInflater;

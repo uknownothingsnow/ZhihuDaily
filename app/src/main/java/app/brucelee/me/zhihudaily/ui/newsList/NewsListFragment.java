@@ -24,8 +24,6 @@ import javax.inject.Inject;
 import app.brucelee.me.zhihudaily.R;
 
 import app.brucelee.me.zhihudaily.ZhihuApplication;
-import app.brucelee.me.zhihudaily.adapter.TopNewsViewPagerAdapter;
-import app.brucelee.me.zhihudaily.adapter.NewsAdapter;
 import app.brucelee.me.zhihudaily.bean.News;
 import app.brucelee.me.zhihudaily.bean.TopNews;
 import app.brucelee.me.zhihudaily.service.ZhihuService;
