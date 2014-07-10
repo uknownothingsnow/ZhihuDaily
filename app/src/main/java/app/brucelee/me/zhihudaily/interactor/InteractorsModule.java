@@ -27,4 +27,8 @@ public class InteractorsModule {
     @Provides public NewsDetailInteractor provideNewsDetailInteractor(ZhihuService service) {
         return new NewsDetailInteractorImpl(service);
     }
+
+    @Provides public TopicListInteractor provideTopicListInteractor(ZhihuService service) {
+        return new TopicListInteractorImpl(service);
+    }
 }

@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import app.brucelee.me.zhihudaily.R;
 import app.brucelee.me.zhihudaily.ZhihuApplication;
 import app.brucelee.me.zhihudaily.bean.Topic;
@@ -27,6 +29,8 @@ import app.brucelee.me.zhihudaily.bean.TopicList;
 import app.brucelee.me.zhihudaily.service.ZhihuService;
 import app.brucelee.me.zhihudaily.ui.BaseActivity;
 import app.brucelee.me.zhihudaily.ui.BaseFragment;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
@@ -36,46 +40,26 @@ import it.gmariotti.cardslib.library.view.CardListView;
  */
 public class TopicListFragment extends BaseFragment implements AbsListView.OnScrollListener, TopicListView {
     ZhihuService service = ZhihuApplication.getInstance().getRestAdapter().create(ZhihuService.class);
+    @InjectView(R.id.clv_topic_card_list) CardListView cardListView;
+    @Inject TopicListPresenter presenter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_topic_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_topic_list, container, false);
+        ButterKnife.inject(this, view);
+        return  view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         initCards();
     }
 
 
     private void initCards() {
-        final CardListView listView = (CardListView) getActivity().findViewById(R.id.clv_topic_card_list);
-        listView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), false, true, this));
-
-        final Handler handler = new Handler();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final TopicList topics = service.getTopicList();
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        ArrayList<Card> cards = new ArrayList<Card>();
-                        for (Topic topic : topics.others) {
-                            CardExample card = new CardExample(getActivity(), topic);
-                            cards.add(card);
-                        }
-
-                        CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getActivity(),cards);
-                        if (listView!=null){
-                            listView.setAdapter(mCardArrayAdapter);
-                        }
-                    }
-                });
-            }
-        }).start();
-
+        cardListView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), false, true, this));
+        presenter.fetch();
     }
 
     @Override
@@ -91,6 +75,22 @@ public class TopicListFragment extends BaseFragment implements AbsListView.OnScr
     @Override
     public List<Object> getModules() {
         return Arrays.<Object>asList(new TopicListModule(this));
+    }
+
+    @Override
+    public CardListView getListView() {
+        return cardListView;
+    }
+
+    @Override
+    public void setItems(TopicList topicList) {
+        ArrayList<Card> cards = new ArrayList<Card>();
+        for (Topic topic : topicList.others) {
+            CardExample card = new CardExample(getActivity(), topic);
+            cards.add(card);
+        }
+        CardArrayAdapter cardArrayAdapter = new CardArrayAdapter(getActivity(),cards);
+        cardListView.setAdapter(cardArrayAdapter);
     }
 
     public class CardExample extends Card{

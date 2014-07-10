@@ -2,6 +2,7 @@ package app.brucelee.me.zhihudaily.ui.topicList;
 
 import javax.inject.Singleton;
 
+import app.brucelee.me.zhihudaily.interactor.TopicListInteractor;
 import app.brucelee.me.zhihudaily.ui.main.MainModule;
 import dagger.Module;
 import dagger.Provides;
@@ -26,7 +27,7 @@ public class TopicListModule {
         return view;
     }
 
-    @Provides @Singleton public TopicListPresenter provideTopicListPresenter(TopicListView view) {
-        return new TopicListPresenterImpl(view);
+    @Provides @Singleton public TopicListPresenter provideTopicListPresenter(TopicListView view, TopicListInteractor interactor) {
+        return new TopicListPresenterImpl(view, interactor);
     }
 }
