@@ -35,7 +35,7 @@ public class ZhihuApplication extends Application {
         objectGraph = ObjectGraph.create(getModules().toArray());
     }
 
-    private List<Object> getModules() {
+    protected List<Object> getModules() {
         return Arrays.<Object>asList(new AppModule(this));
     }
 
