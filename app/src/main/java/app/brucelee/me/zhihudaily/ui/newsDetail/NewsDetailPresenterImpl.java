@@ -2,11 +2,12 @@ package app.brucelee.me.zhihudaily.ui.newsDetail;
 
 import app.brucelee.me.zhihudaily.bean.NewsDetail;
 import app.brucelee.me.zhihudaily.interactor.NewsDetailInteractor;
+import app.brucelee.me.zhihudaily.ui.OnFetchedListener;
 
 /**
  * Created by bruce on 7/9/14.
  */
-public class NewsDetailPresenterImpl implements NewsDetailPresenter, OnFetchedListener {
+public class NewsDetailPresenterImpl implements NewsDetailPresenter, OnFetchedListener<NewsDetail> {
 
     private NewsDetailView view;
     private NewsDetailInteractor interactor;

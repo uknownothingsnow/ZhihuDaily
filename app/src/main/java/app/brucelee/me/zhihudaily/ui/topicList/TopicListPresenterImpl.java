@@ -2,6 +2,7 @@ package app.brucelee.me.zhihudaily.ui.topicList;
 
 import app.brucelee.me.zhihudaily.bean.TopicList;
 import app.brucelee.me.zhihudaily.interactor.TopicListInteractor;
+import app.brucelee.me.zhihudaily.ui.OnFetchedListener;
 
 /**
  * Created by bruce on 7/9/14.

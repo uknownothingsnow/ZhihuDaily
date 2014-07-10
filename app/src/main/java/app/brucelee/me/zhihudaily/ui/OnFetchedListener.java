@@ -1,4 +1,4 @@
-package app.brucelee.me.zhihudaily.ui.topicList;
+package app.brucelee.me.zhihudaily.ui;
 
 /**
  * Created by bruce on 7/10/14.

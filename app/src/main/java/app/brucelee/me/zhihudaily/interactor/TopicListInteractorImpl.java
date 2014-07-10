@@ -3,7 +3,7 @@ package app.brucelee.me.zhihudaily.interactor;
 import app.brucelee.me.zhihudaily.bean.TopicList;
 import app.brucelee.me.zhihudaily.service.ZhihuService;
 import app.brucelee.me.zhihudaily.support.MyAsyncTask;
-import app.brucelee.me.zhihudaily.ui.topicList.OnFetchedListener;
+import app.brucelee.me.zhihudaily.ui.OnFetchedListener;
 import app.brucelee.me.zhihudaily.ui.topicList.TopicListTask;
 
 /**

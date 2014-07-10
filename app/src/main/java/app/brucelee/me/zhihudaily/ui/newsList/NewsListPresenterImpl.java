@@ -2,17 +2,16 @@ package app.brucelee.me.zhihudaily.ui.newsList;
 
 import android.app.Activity;
 
-import java.util.List;
-
+import app.brucelee.me.zhihudaily.bean.LatestNewsList;
 import app.brucelee.me.zhihudaily.bean.News;
-import app.brucelee.me.zhihudaily.bean.TopNews;
 import app.brucelee.me.zhihudaily.interactor.NewsListInteractor;
 import app.brucelee.me.zhihudaily.ui.newsDetail.NewsDetailActivity;
+import app.brucelee.me.zhihudaily.ui.OnFetchedListener;
 
 /**
  * Created by bruce on 7/8/14.
  */
-public class NewsListPresenterImpl implements NewsListPresenter, OnFetchedListener {
+public class NewsListPresenterImpl implements NewsListPresenter, OnFetchedListener<LatestNewsList> {
 
     private NewsListView view;
     private Activity activity;
@@ -32,7 +31,7 @@ public class NewsListPresenterImpl implements NewsListPresenter, OnFetchedListen
     }
 
     @Override
-    public void onFetched(List<News> newsList, List<TopNews> topNewsList) {
-        view.setNewsItems(newsList, topNewsList);
+    public void onFetched(LatestNewsList latestNewsList) {
+        view.setNewsItems(latestNewsList.news, latestNewsList.topNews);
     }
 }

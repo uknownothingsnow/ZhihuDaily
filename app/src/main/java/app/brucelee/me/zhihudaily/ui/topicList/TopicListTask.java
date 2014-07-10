@@ -1,10 +1,10 @@
 package app.brucelee.me.zhihudaily.ui.topicList;
 
 import app.brucelee.me.zhihudaily.ZhihuApplication;
-import app.brucelee.me.zhihudaily.bean.Topic;
 import app.brucelee.me.zhihudaily.bean.TopicList;
 import app.brucelee.me.zhihudaily.service.ZhihuService;
 import app.brucelee.me.zhihudaily.support.MyAsyncTask;
+import app.brucelee.me.zhihudaily.ui.OnFetchedListener;
 
 /**
  * Created by bruce on 7/10/14.
