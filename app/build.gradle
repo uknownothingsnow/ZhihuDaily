@@ -55,7 +55,7 @@ dependencies {
     compile 'com.mobsandgeeks:android-saripaar:1.0.2'
 
     // Espresso
-    androidTestCompile files('lib/espresso-1.1.jar', 'lib/testrunner-1.1.jar', 'lib/testrunner-runtime-1.1.jar')
+    androidTestCompile files('libs/espresso-1.1.jar', 'libs/testrunner-1.1.jar', 'libs/testrunner-runtime-1.1.jar')
     androidTestCompile 'com.google.guava:guava:14.0.1'
     androidTestCompile 'com.squareup.dagger:dagger:1.1.0'
     androidTestCompile 'org.hamcrest:hamcrest-integration:1.1'
