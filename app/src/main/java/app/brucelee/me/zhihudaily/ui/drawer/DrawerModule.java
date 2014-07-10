@@ -1,5 +1,7 @@
 package app.brucelee.me.zhihudaily.ui.drawer;
 
+import android.content.res.TypedArray;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,6 +48,11 @@ public class DrawerModule {
     }
     @Provides @Singleton @DrawerIcons
     int[] provideDrawerIcons(ZhihuApplication application) {
-        return application.getResources().getIntArray(R.array.drawer_icons);
+        TypedArray res = application.getResources().obtainTypedArray(R.array.drawer_icons);
+        int[] ids = new int[res.length()];
+        for (int i = 0; i < ids.length; i++) {
+            ids[i] = res.getResourceId(i, 0);
+        }
+        return ids;
     }
 }
