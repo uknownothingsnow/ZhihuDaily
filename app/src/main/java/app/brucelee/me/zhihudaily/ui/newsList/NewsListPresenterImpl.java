@@ -27,7 +27,7 @@ public class NewsListPresenterImpl implements NewsListPresenter, OnFetchedListen
     @Override
     public void onListItemClick(final int position) {
         News news = (News) view.getNewsAdapter().getItem(position);
-        activity.startActivity(NewsDetailActivity.newIntent(news.id));
+        activity.startActivity(NewsDetailActivity.newIntent(view.getContext(), news.id));
     }
 
     @Override

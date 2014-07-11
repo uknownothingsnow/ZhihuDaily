@@ -37,4 +37,11 @@ public class AppModule {
                 .build();
         return restAdapter.create(ZhihuService.class);
     }
+
+    @Provides @Singleton RestAdapter provideRestAdapter() {
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint("http://news-at.zhihu.com/api/3")
+                .build();
+        return restAdapter;
+    }
 }

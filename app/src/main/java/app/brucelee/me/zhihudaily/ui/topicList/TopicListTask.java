@@ -10,10 +10,11 @@ import app.brucelee.me.zhihudaily.ui.OnFetchedListener;
  * Created by bruce on 7/10/14.
  */
 public class TopicListTask extends MyAsyncTask<Void, Void, TopicList> {
-    ZhihuService service = ZhihuApplication.getInstance().getRestAdapter().create(ZhihuService.class);
     final OnFetchedListener<TopicList> listener;
+    final ZhihuService service;
 
-    public TopicListTask(final OnFetchedListener<TopicList> listener) {
+    public TopicListTask(final ZhihuService service, final OnFetchedListener<TopicList> listener) {
+        this.service = service;
         this.listener = listener;
     }
 

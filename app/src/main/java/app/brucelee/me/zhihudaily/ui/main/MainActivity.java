@@ -1,5 +1,6 @@
 package app.brucelee.me.zhihudaily.ui.main;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
@@ -61,6 +62,11 @@ public class MainActivity extends BaseActivity implements MainView {
     @Override
     public DrawerFragment getNavigationDrawerFragment() {
         return navigationDrawerFragment;
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
     @Override

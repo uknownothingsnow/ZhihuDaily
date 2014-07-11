@@ -15,20 +15,13 @@ import retrofit.RestAdapter;
  * Created by bruce on 6/25/14.
  */
 public class ZhihuApplication extends Application {
-    private static ZhihuApplication instance;
-    private ObjectGraph objectGraph;
-    private RestAdapter restAdapter;
+    protected ObjectGraph objectGraph;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        instance = this;
 
-        restAdapter = new RestAdapter.Builder()
-                .setEndpoint("http://news-at.zhihu.com/api/3")
-                .build();
-
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
         .build();
         ImageLoader.getInstance().init(config);
 
@@ -37,14 +30,6 @@ public class ZhihuApplication extends Application {
 
     protected List<Object> getModules() {
         return Arrays.<Object>asList(new AppModule(this));
-    }
-
-    public static ZhihuApplication getInstance() {
-        return instance;
-    }
-
-    public RestAdapter getRestAdapter() {
-        return restAdapter;
     }
 
     public ObjectGraph createScopedGraph(Object... modules) {

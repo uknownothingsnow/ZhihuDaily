@@ -1,6 +1,8 @@
 package app.brucelee.me.zhihudaily.ui.newsList;
 
 import android.app.Activity;
+import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -35,7 +37,6 @@ import uk.co.senab.actionbarpulltorefresh.library.Options;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 
 public class NewsListFragment extends BaseFragment implements NewsListView {
-    ZhihuService service = ZhihuApplication.getInstance().getRestAdapter().create(ZhihuService.class);
     private static final String TAG = "NewsListFragment";
     private OnFragmentInteractionListener listener;
     @InjectView(android.R.id.list) ListView listView;
@@ -43,6 +44,7 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
     private TopNewsViewPagerAdapter topNewsViewPagerAdapter;
     @InjectView(R.id.ptr_layout) PullToRefreshLayout pullToRefreshLayout;
     @Inject NewsListPresenter presenter;
+    @Inject Application application;
 
     public NewsListFragment() {
     }
@@ -98,6 +100,11 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
     @Override
     public NewsAdapter getNewsAdapter() {
         return newsAdapter;
+    }
+
+    @Override
+    public Context getContext() {
+        return application;
     }
 
     private void initPullToRefresh() {

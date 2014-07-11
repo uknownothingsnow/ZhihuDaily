@@ -1,13 +1,11 @@
 package app.brucelee.me.zhihudaily.ui.login;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mobsandgeeks.saripaar.Rule;
 
-import app.brucelee.me.zhihudaily.ZhihuApplication;
 import app.brucelee.me.zhihudaily.interactor.LoginInteractor;
 
 /**
@@ -15,18 +13,18 @@ import app.brucelee.me.zhihudaily.interactor.LoginInteractor;
  */
 public class LoginPresenterImpl implements LoginPresenter, LoginResultListener {
 
-    private LoginView loginView;
-    private LoginInteractor loginInteractor;
+    private LoginView view;
+    private LoginInteractor interactor;
 
     public LoginPresenterImpl(LoginView loginView, LoginInteractor loginInteractor) {
-        this.loginView = loginView;
-        this.loginInteractor = loginInteractor;
+        this.view = loginView;
+        this.interactor = loginInteractor;
     }
 
     @Override
     public void onValidationSucceeded() {
-        loginView.showProgress();
-        loginInteractor.login(loginView.getEmail(), loginView.getPassword(), this);
+        view.showProgress();
+        interactor.login(view.getEmail(), view.getPassword(), this);
     }
 
     @Override
@@ -51,7 +49,7 @@ public class LoginPresenterImpl implements LoginPresenter, LoginResultListener {
 
     @Override
     public void onSuccess() {
-        Toast.makeText(ZhihuApplication.getInstance(), "登录成功", Toast.LENGTH_LONG).show();
-        loginView.hideProgress();
+        Toast.makeText(view.getContext(), "登录成功", Toast.LENGTH_LONG).show();
+        view.hideProgress();
     }
 }

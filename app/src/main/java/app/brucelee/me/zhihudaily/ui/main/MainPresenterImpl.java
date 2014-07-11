@@ -29,7 +29,7 @@ public class MainPresenterImpl implements MainPresenter {
     public void onNavigationDrawerItemSelected(int position) {
         switch (position) {
             case 0:
-                ((Activity) view).startActivity(LoginActivity.newIntent());
+                ((Activity) view).startActivity(LoginActivity.newIntent(view.getContext()));
                 break;
             case 1:
                 view.replaceFragment(R.id.container, new NewsListFragment());
@@ -38,7 +38,7 @@ public class MainPresenterImpl implements MainPresenter {
                 view.replaceFragment(R.id.container, new TopicListFragment());
                 break;
             case 3:
-                ((Activity) view).startActivity(LoginActivity.newIntent());
+                ((Activity) view).startActivity(LoginActivity.newIntent(view.getContext()));
                 break;
             default:
                 view.replaceFragment(R.id.container, new NewsListFragment());

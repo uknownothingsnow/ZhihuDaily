@@ -1,6 +1,7 @@
 package app.brucelee.me.zhihudaily.ui.login;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -43,8 +44,8 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
     @Inject
     LoginPresenter loginPresenter;
 
-    public static Intent newIntent() {
-        Intent intent = new Intent(ZhihuApplication.getInstance(), LoginActivity.class);
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
         return intent;
     }
 
@@ -99,6 +100,11 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
     @Override
     public String getPassword() {
         return password.getText().toString();
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
     @Override

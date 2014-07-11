@@ -1,5 +1,6 @@
 package app.brucelee.me.zhihudaily.ui.newsList;
 
+import android.content.Context;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
@@ -18,4 +19,6 @@ public interface NewsListView extends AbsListView.OnItemClickListener, OnRefresh
     public void setNewsItems(List<News> newsList, List<TopNews> topNewsList);
 
     public NewsAdapter getNewsAdapter();
+
+    public Context getContext();
 }

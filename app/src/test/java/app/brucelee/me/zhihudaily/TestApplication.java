@@ -3,6 +3,7 @@ package app.brucelee.me.zhihudaily;
 import org.robolectric.Robolectric;
 import org.robolectric.TestLifecycleApplication;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,6 +13,8 @@ import java.util.List;
 public class TestApplication extends ZhihuApplication {
     @Override
     protected List<Object> getModules() {
-        return Arrays.<Object>asList(new AppModule(this));
+        List<Object> modules = super.getModules();
+        modules.add(new TestModule());
+        return modules;
     }
 }
