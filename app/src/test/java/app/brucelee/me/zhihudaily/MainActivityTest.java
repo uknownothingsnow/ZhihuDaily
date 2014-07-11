@@ -20,9 +20,10 @@ import static org.junit.Assert.assertTrue;
 @Config(manifest = "./src/main/AndroidManifest.xml", emulateSdk = 18)
 public class MainActivityTest {
     private final ActivityController<MainActivity> controller = Robolectric.buildActivity(MainActivity.class);
+
     @Test
     public void test_MainActivity_title() throws Exception {
-        String appName = new MainActivity().getResources().getString(R.string.app_name);
-        assertThat(appName, equalTo("知乎日报"));
+        CharSequence title = controller.create().get().getTitle();
+        assertEquals(title, "知乎日报");
     }
 }
