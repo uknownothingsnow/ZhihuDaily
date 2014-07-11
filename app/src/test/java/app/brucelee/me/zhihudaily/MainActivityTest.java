@@ -22,11 +22,7 @@ public class MainActivityTest {
     private final ActivityController<MainActivity> controller = Robolectric.buildActivity(MainActivity.class);
     @Test
     public void test_MainActivity_title() throws Exception {
-//        MainActivity mainActivity = controller.create().start().get();
-//        assertNotNull(mainActivity.getNavigationDrawerFragment());
-//        String appName = new MainActivity().getResources().getString(R.string.app_name);
-//        assertThat(appName, equalTo("知乎日报"));
-        String[] texts = Robolectric.application.getResources().getStringArray(R.array.drawer_texts);
-        assertEquals(texts.length, 5);
+        String appName = new MainActivity().getResources().getString(R.string.app_name);
+        assertThat(appName, equalTo("知乎日报"));
     }
 }
