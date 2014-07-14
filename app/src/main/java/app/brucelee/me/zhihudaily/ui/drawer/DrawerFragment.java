@@ -269,6 +269,11 @@ public class DrawerFragment extends BaseFragment implements DrawerView {
         return Arrays.<Object>asList(new DrawerModule(this));
     }
 
+    @Override
+    public ListView getListView() {
+        return mDrawerListView;
+    }
+
     /**
      * Callbacks interface that all activities using this fragment must implement.
      */
