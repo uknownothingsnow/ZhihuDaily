@@ -41,11 +41,6 @@ public class DrawerFragment extends BaseFragment implements DrawerView {
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
 
     /**
-     * A pointer to the current callbacks instance (the Activity).
-     */
-    private NavigationDrawerCallbacks callbacks;
-
-    /**
      * Helper component that ties the action bar to the navigation drawer.
      */
     private ActionBarDrawerToggle drawerToggle;
@@ -65,10 +60,6 @@ public class DrawerFragment extends BaseFragment implements DrawerView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Read in the flag indicating whether or not the user has demonstrated awareness of the
-        // drawer. See PREF_USER_LEARNED_DRAWER for details.
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         if (savedInstanceState != null) {
             currentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
@@ -156,22 +147,6 @@ public class DrawerFragment extends BaseFragment implements DrawerView {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            callbacks = (NavigationDrawerCallbacks) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        callbacks = null;
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(STATE_SELECTED_POSITION, currentSelectedPosition);
@@ -231,11 +206,6 @@ public class DrawerFragment extends BaseFragment implements DrawerView {
     @Override
     public View getContainerView() {
         return fragmentContainerView;
-    }
-
-    @Override
-    public NavigationDrawerCallbacks getCallbacks() {
-        return callbacks;
     }
 
     @Override

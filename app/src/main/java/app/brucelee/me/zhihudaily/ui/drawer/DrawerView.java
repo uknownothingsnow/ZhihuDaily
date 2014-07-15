@@ -18,7 +18,5 @@ public interface DrawerView {
 
     View getContainerView();
 
-    DrawerFragment.NavigationDrawerCallbacks getCallbacks();
-
     boolean isFromSavedInstanceState();
 }

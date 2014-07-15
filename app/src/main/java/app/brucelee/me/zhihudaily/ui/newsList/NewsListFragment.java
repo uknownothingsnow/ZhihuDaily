@@ -62,11 +62,16 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
         View view = inflater.inflate(R.layout.fragment_news_list, container, false);
         ButterKnife.inject(this, view);
 
-        initPullToRefresh();
         View headerView = initViewPagerIndicator(inflater);
         initListView(headerView);
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        initPullToRefresh();
     }
 
     private void initListView(View headerView) {

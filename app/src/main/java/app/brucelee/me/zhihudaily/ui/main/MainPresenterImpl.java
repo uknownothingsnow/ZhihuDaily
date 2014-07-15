@@ -16,12 +16,10 @@ import app.brucelee.me.zhihudaily.ui.login.LoginActivity;
 public class MainPresenterImpl implements MainPresenter {
 
     private MainView view;
-    private MainInteractor interactor;
     private CharSequence title;
 
     public MainPresenterImpl(MainView mainView, MainInteractor mainInteractor) {
         this.view = mainView;
-        this.interactor = mainInteractor;
         title = ((Activity) view).getTitle();
     }
 

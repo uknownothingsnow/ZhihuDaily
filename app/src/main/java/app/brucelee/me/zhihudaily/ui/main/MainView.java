@@ -9,7 +9,7 @@ import app.brucelee.me.zhihudaily.ui.newsList.NewsListFragment;
 /**
  * Created by bruce on 7/4/14.
  */
-public interface MainView extends DrawerFragment.NavigationDrawerCallbacks, NewsListFragment.OnFragmentInteractionListener {
+public interface MainView extends NewsListFragment.OnFragmentInteractionListener {
     public void replaceFragment(int id, Fragment fragment);
 
     public DrawerFragment getNavigationDrawerFragment();

@@ -8,7 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 
 import app.brucelee.me.zhihudaily.R;
+import app.brucelee.me.zhihudaily.event.DrawerItemClickEvent;
 import app.brucelee.me.zhihudaily.ui.BaseFragment;
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by bruce on 7/7/14.
@@ -41,9 +43,7 @@ public class DrawerPresenterImpl implements DrawerPresenter {
         if (view.getDrawerLayout() != null) {
             view.getDrawerLayout().closeDrawer(view.getContainerView());
         }
-        if (view.getCallbacks() != null) {
-            view.getCallbacks().onNavigationDrawerItemSelected(position);
-        }
+        EventBus.getDefault().post(new DrawerItemClickEvent(position));
     }
 
     @Override

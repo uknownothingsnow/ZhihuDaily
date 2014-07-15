@@ -11,11 +11,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import app.brucelee.me.zhihudaily.event.DrawerItemClickEvent;
 import app.brucelee.me.zhihudaily.ui.BaseActivity;
 import app.brucelee.me.zhihudaily.ui.drawer.DrawerFragment;
 import app.brucelee.me.zhihudaily.R;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 
 
 public class MainActivity extends BaseActivity implements MainView {
@@ -38,13 +40,15 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     @Override
-    public List<Object> getModules() {
-        return Arrays.<Object>asList(new MainModule(this));
+    protected void onStart() {
+        super.onStart();
+        //default select 1st
+        presenter.onNavigationDrawerItemSelected(1);
     }
 
     @Override
-    public void onNavigationDrawerItemSelected(int position) {
-        presenter.onNavigationDrawerItemSelected(position);
+    public List<Object> getModules() {
+        return Arrays.<Object>asList(new MainModule(this));
     }
 
     @Override
@@ -72,5 +76,21 @@ public class MainActivity extends BaseActivity implements MainView {
     @Override
     public void onFragmentInteraction(String id) {
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    public void onEvent(DrawerItemClickEvent event) {
+        presenter.onNavigationDrawerItemSelected(event.getPosition());
     }
 }
