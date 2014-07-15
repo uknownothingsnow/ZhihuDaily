@@ -48,7 +48,7 @@ public class MainActivityTest {
 //        MainActivity mainActivity = controller.create().start().resume().get();
         controller.get().getResources().getString(R.string.app_name);
         controller.get().getResources().getColor(R.color.list_item_desc_light);
-        controller.get().getResources().getColor(R.color.blue_normal);
+        controller.get().getResources().getColor(R.color.default_circle_indicator_fill_color);
 //        controller.get().getResources().getColor(R.color.default_circle_indicator_page_color);
 //        EventBus.getDefault().post(new DrawerItemClickEvent(2));
 //        Fragment fragment = mainActivity.getSupportFragmentManager().findFragmentById(R.id.container);

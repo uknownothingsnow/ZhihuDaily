@@ -1,48 +1,66 @@
-apply plugin: 'android'
-apply plugin: 'hugo'
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url 'https://github.com/donnfelker/mvn-repo/raw/master/' }
+        //required to get the plugin working again with gradle:0.11+ and AS0.6.0
+        //maven { url 'https://github.com/rockerhieu/mvn-repo/raw/master/' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.12.+'
+        //classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.10.+'
+        classpath 'org.robolectric:robolectric-gradle-plugin:0.11.+'
+        //required to get the plugin working again on AS 0.6.0
+        //classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.10.1-SNAPSHOT'
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        maven { url 'https://github.com/donnfelker/mvn-repo/raw/master/' }
+    }
+}
+
+
+apply plugin: 'com.android.application'
 apply plugin: 'robolectric'
 
-repositories {
-    maven { url 'https://github.com/donnfelker/mvn-repo/raw/master/' }
-    mavenLocal()
-    mavenCentral()
-}
+//apply plugin: 'hugo'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.1.0"
-
+    compileSdkVersion 20
+    buildToolsVersion '20.0.0'
     defaultConfig {
-        applicationId "app.brucelee.me.zhihudaily"
-        minSdkVersion 19
-        targetSdkVersion 19
+        minSdkVersion 15
+        targetSdkVersion 20
         versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+        versionName '1.0'
     }
     buildTypes {
+        debug {
+            runProguard true
+            proguardFiles 'proguard-rules.txt'
+        }
         release {
             runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles 'proguard-rules.txt'
         }
     }
-
     sourceSets {
-        androidTest {
-            setRoot('src/test')
-        }
+        androidTest.setRoot('src/test')
     }
-}
-
-robolectric {
-    include '**/*Test.class'
-    exclude '**/espresso/**/*.class'
+    lintOptions {
+        abortOnError false
+        disable 'InvalidPackage'
+    }
+    productFlavors {
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:19.+'
-    compile 'com.android.support:support-v4:19.+'
+    compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    compile 'com.android.support:appcompat-v7:20.+'
+    compile 'com.android.support:support-v4:20.+'
     compile 'com.google.code.gson:gson:2.2.+'
     compile 'com.squareup.retrofit:retrofit:1.6.0'
     compile 'com.github.gabrielemariotti.cards:library:1.7.3'
@@ -57,42 +75,59 @@ dependencies {
     compile 'de.greenrobot:eventbus:2.2.1'
 
     // Espresso
-    androidTestCompile files('libs/espresso-1.1.jar', 'libs/testrunner-1.1.jar', 'libs/testrunner-runtime-1.1.jar')
-    androidTestCompile 'com.google.guava:guava:14.0.1'
-    androidTestCompile 'com.squareup.dagger:dagger:1.1.0'
-    androidTestCompile 'org.hamcrest:hamcrest-integration:1.1'
-    androidTestCompile 'org.hamcrest:hamcrest-core:1.1'
-    androidTestCompile 'org.hamcrest:hamcrest-library:1.1'
-    androidTestCompile 'com.squareup:fest-android:1.0.8'
-    androidTestCompile 'org.mockito:mockito-all:+'
+//    androidTestCompile files('libs/espresso-1.1.jar', 'libs/testrunner-1.1.jar', 'libs/testrunner-runtime-1.1.jar')
+//    androidTestCompile 'com.google.guava:guava:14.0.1'
+//    androidTestCompile 'com.squareup.dagger:dagger:1.1.0'
+//    androidTestCompile 'org.hamcrest:hamcrest-integration:1.1'
+//    androidTestCompile 'org.hamcrest:hamcrest-core:1.1'
+//    androidTestCompile 'org.hamcrest:hamcrest-library:1.1'
+//    androidTestCompile 'com.squareup:fest-android:1.0.8'
+//    androidTestCompile 'org.mockito:mockito-all:+'
+//
+//    androidTestCompile('junit:junit:4.11') {
+//        exclude module: 'hamcrest-core'
+//    }
+//    androidTestCompile('org.robolectric:robolectric:2.3') {
+//        exclude module: 'classworlds'
+//        exclude module: 'commons-logging'
+//        exclude module: 'httpclient'
+//        exclude module: 'maven-artifact'
+//        exclude module: 'maven-artifact-manager'
+//        exclude module: 'maven-error-diagnostics'
+//        exclude module: 'maven-model'
+//        exclude module: 'maven-project'
+//        exclude module: 'maven-settings'
+//        exclude module: 'plexus-container-default'
+//        exclude module: 'plexus-interpolation'
+//        exclude module: 'plexus-utils'
+//        exclude module: 'wagon-file'
+//        exclude module: 'wagon-http-lightweight'
+//        exclude module: 'wagon-provider-api'
+//    }
+//    androidTestCompile 'com.squareup:fest-android:1.0.+'
 
-    androidTestCompile('junit:junit:4.11') {
-        exclude module: 'hamcrest-core'
-    }
-    androidTestCompile('org.robolectric:robolectric:2.3') {
-        exclude module: 'classworlds'
-        exclude module: 'commons-logging'
-        exclude module: 'httpclient'
-        exclude module: 'maven-artifact'
-        exclude module: 'maven-artifact-manager'
-        exclude module: 'maven-error-diagnostics'
-        exclude module: 'maven-model'
-        exclude module: 'maven-project'
-        exclude module: 'maven-settings'
-        exclude module: 'plexus-container-default'
-        exclude module: 'plexus-interpolation'
-        exclude module: 'plexus-utils'
-        exclude module: 'wagon-file'
-        exclude module: 'wagon-http-lightweight'
-        exclude module: 'wagon-provider-api'
-    }
+    // ================== TESTING LIBRARIES ======================
+    androidTestCompile 'junit:junit:4.10'
+    androidTestCompile 'org.robolectric:robolectric:2.3'
     androidTestCompile 'com.squareup:fest-android:1.0.+'
+    androidTestCompile 'org.bouncycastle:bcprov-jdk15on:1.50'
+    androidTestCompile 'com.jakewharton:butterknife:5.1.0'
 }
 
-apply plugin: 'idea'
+robolectric {
+    // configure the set of classes for JUnit tests
+    include '**/*Test.class'
+    //exclude '**/espresso/**/*.class'
 
-idea {
-    module {
-        testOutputDir = file('build/test-classes/debug')
-    }
+    // configure max heap size of the test JVM
+    maxHeapSize = "2048m"
 }
+
+
+//apply plugin: 'idea'
+//
+//idea {
+//    module {
+//        testOutputDir = file('build/test-classes/debug')
+//    }
+//}
