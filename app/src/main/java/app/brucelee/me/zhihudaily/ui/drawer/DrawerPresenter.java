@@ -11,4 +11,8 @@ public interface DrawerPresenter {
     void onDrawerOpened();
 
     boolean isLearned();
+
+    void initListView();
+
+    void setUp();
 }

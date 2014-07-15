@@ -1,6 +1,7 @@
 package app.brucelee.me.zhihudaily.ui.drawer;
 
 import android.app.Activity;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.ListView;
@@ -13,7 +14,11 @@ public interface DrawerView {
 
     DrawerLayout getDrawerLayout();
 
+    ActionBarDrawerToggle getDrawerToggle();
+
     View getContainerView();
 
     DrawerFragment.NavigationDrawerCallbacks getCallbacks();
+
+    boolean isFromSavedInstanceState();
 }

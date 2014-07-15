@@ -5,8 +5,10 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 
 import app.brucelee.me.zhihudaily.R;
+import app.brucelee.me.zhihudaily.ui.BaseFragment;
 
 /**
  * Created by bruce on 7/7/14.
@@ -69,6 +71,30 @@ public class DrawerPresenterImpl implements DrawerPresenter {
     @Override
     public boolean isLearned() {
         return userLearnedDrawer;
+    }
+
+    @Override
+    public void initListView() {
+        view.getListView().setAdapter(new DrawerAdapter(getActionBar().getThemedContext(), ((BaseFragment) view).getFragmentGraph()));
+        view.getListView().setItemChecked(currentSelectedPosition, true);
+    }
+
+    @Override
+    public void setUp() {
+        view.getDrawerLayout().setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        showActionBar();
+
+        if (!isLearned() && !view.isFromSavedInstanceState()) {
+            view.getDrawerLayout().openDrawer(view.getContainerView());
+        }
+
+        // Defer code dependent on restoration of previous instance state.
+        view.getDrawerLayout().post(new Runnable() {
+            @Override
+            public void run() {
+                view.getDrawerToggle().syncState();
+            }
+        });
     }
 
     private ActionBar getActionBar() {

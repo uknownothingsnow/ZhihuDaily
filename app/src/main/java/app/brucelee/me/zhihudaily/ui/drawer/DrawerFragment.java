@@ -99,8 +99,9 @@ public class DrawerFragment extends BaseFragment implements DrawerView {
                 presenter.select(position);
             }
         });
-        drawerListView.setAdapter(new DrawerAdapter(getActionBar().getThemedContext(), getFragmentGraph()));
-        drawerListView.setItemChecked(currentSelectedPosition, true);
+
+        presenter.initListView();
+
         return drawerListView;
     }
 
@@ -118,17 +119,12 @@ public class DrawerFragment extends BaseFragment implements DrawerView {
         fragmentContainerView = getActivity().findViewById(fragmentId);
         this.drawerLayout = drawerLayout;
 
-        // set a custom shadow that overlays the main content when the drawer opens
-        this.drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        // set up the drawer's list view with items and click listener
-
-        presenter.showActionBar();
-
+        presenter.setUp();
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the navigation drawer and the action bar app icon.
         drawerToggle = new ActionBarDrawerToggle(
                 getActivity(),                    /* host Activity */
-                DrawerFragment.this.drawerLayout,                    /* DrawerLayout object */
+                drawerLayout,                    /* DrawerLayout object */
                 R.drawable.ic_drawer,             /* nav drawer image to replace 'Up' caret */
                 R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
                 R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
@@ -155,20 +151,6 @@ public class DrawerFragment extends BaseFragment implements DrawerView {
                 getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
             }
         };
-
-        // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
-        // per the navigation drawer design guidelines.
-        if (!presenter.isLearned() && !fromSavedInstanceState) {
-            this.drawerLayout.openDrawer(fragmentContainerView);
-        }
-
-        // Defer code dependent on restoration of previous instance state.
-        this.drawerLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                drawerToggle.syncState();
-            }
-        });
 
         this.drawerLayout.setDrawerListener(drawerToggle);
     }
@@ -242,6 +224,11 @@ public class DrawerFragment extends BaseFragment implements DrawerView {
     }
 
     @Override
+    public ActionBarDrawerToggle getDrawerToggle() {
+        return drawerToggle;
+    }
+
+    @Override
     public View getContainerView() {
         return fragmentContainerView;
     }
@@ -249,6 +236,11 @@ public class DrawerFragment extends BaseFragment implements DrawerView {
     @Override
     public NavigationDrawerCallbacks getCallbacks() {
         return callbacks;
+    }
+
+    @Override
+    public boolean isFromSavedInstanceState() {
+        return fromSavedInstanceState;
     }
 
     /**
