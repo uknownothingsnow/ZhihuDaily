@@ -4,3 +4,4 @@
 .DS_Store
 /build
 ajcore.*.txt
+*.iml
