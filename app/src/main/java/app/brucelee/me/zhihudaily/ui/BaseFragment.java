@@ -9,7 +9,7 @@ import dagger.ObjectGraph;
 /**
  * Created by bruce on 7/7/14.
  */
-public abstract class BaseFragment extends Fragment implements Moduabel {
+public abstract class BaseFragment extends Fragment implements Injectable {
 
     private ObjectGraph fragmentGraph;
 

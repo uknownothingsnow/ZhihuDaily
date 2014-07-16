@@ -2,6 +2,8 @@ package app.brucelee.me.zhihudaily.ui.main;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 
 import app.brucelee.me.zhihudaily.R;
@@ -30,17 +32,23 @@ public class MainPresenterImpl implements MainPresenter {
                 ((Activity) view).startActivity(LoginActivity.newIntent(view.getContext()));
                 break;
             case 1:
-                view.replaceFragment(R.id.container, new NewsListFragment());
+                replaceFragment(R.id.container, new NewsListFragment());
                 break;
             case 2:
-                view.replaceFragment(R.id.container, new TopicListFragment());
+                replaceFragment(R.id.container, new TopicListFragment());
                 break;
             case 3:
                 ((Activity) view).startActivity(LoginActivity.newIntent(view.getContext()));
                 break;
             default:
-                view.replaceFragment(R.id.container, new NewsListFragment());
+                replaceFragment(R.id.container, new NewsListFragment());
         }
+    }
+
+    private void replaceFragment(int id, Fragment fragment) {
+        ((FragmentActivity)view).getSupportFragmentManager().beginTransaction()
+                .replace(id, fragment)
+                .commit();
     }
 
     @Override

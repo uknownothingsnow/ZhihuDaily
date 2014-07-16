@@ -39,7 +39,6 @@ import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 
 public class NewsListFragment extends BaseFragment implements NewsListView {
     private static final String TAG = "NewsListFragment";
-    private OnFragmentInteractionListener listener;
     @InjectView(android.R.id.list) ListView listView;
     private NewsAdapter newsAdapter;
     private TopNewsViewPagerAdapter topNewsViewPagerAdapter;
@@ -127,28 +126,7 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            listener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        listener = null;
-    }
-
-
-    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (null != listener) {
-            listener.onFragmentInteraction("");
-        }
     }
 
     public void setEmptyText(CharSequence emptyText) {

@@ -5,6 +5,6 @@ import java.util.List;
 /**
  * Created by bruce on 7/7/14.
  */
-public interface Moduabel {
+public interface Injectable {
     List<Object> getModules();
 }

@@ -57,13 +57,6 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     @Override
-    public void replaceFragment(int id, Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(id, fragment)
-                .commit();
-    }
-
-    @Override
     public DrawerFragment getNavigationDrawerFragment() {
         return navigationDrawerFragment;
     }
@@ -71,11 +64,6 @@ public class MainActivity extends BaseActivity implements MainView {
     @Override
     public Context getContext() {
         return this;
-    }
-
-    @Override
-    public void onFragmentInteraction(String id) {
-
     }
 
     @Override

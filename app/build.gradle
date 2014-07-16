@@ -96,6 +96,7 @@ dependencies {
     androidTestCompile 'com.squareup:fest-android:1.0.+'
     androidTestCompile 'org.bouncycastle:bcprov-jdk15on:1.50'
     androidTestCompile 'com.jakewharton:butterknife:5.1.0'
+    androidTestCompile "org.mockito:mockito-all:1.9.5"
 }
 
 //androidTest {
@@ -110,4 +111,9 @@ robolectric {
 
     // configure max heap size of the test JVM
     maxHeapSize = "2048m"
+}
+
+tasks.withType(Test) {
+    //makes the standard streams (err and out) visible at console when running tests
+    testLogging.showStandardStreams = true
 }

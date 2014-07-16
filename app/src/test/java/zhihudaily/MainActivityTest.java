@@ -1,20 +1,31 @@
 package zhihudaily;
 
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.util.ActivityController;
 
 
+import java.util.Arrays;
+import java.util.List;
+
+import javax.inject.Singleton;
+
+import app.brucelee.me.zhihudaily.AppModule;
 import app.brucelee.me.zhihudaily.R;
+import app.brucelee.me.zhihudaily.ZhihuApplication;
 import app.brucelee.me.zhihudaily.event.DrawerItemClickEvent;
 import app.brucelee.me.zhihudaily.ui.main.MainActivity;
+import app.brucelee.me.zhihudaily.ui.main.MainPresenter;
 import app.brucelee.me.zhihudaily.ui.topicList.TopicListFragment;
+import dagger.Module;
+import dagger.Provides;
 import de.greenrobot.event.EventBus;
 
 import static org.junit.Assert.assertEquals;
@@ -24,6 +35,34 @@ import static org.junit.Assert.assertTrue;
 @Config(emulateSdk = 18)
 @RunWith(RobolectricTestRunner.class)
 public class MainActivityTest {
+
+    static MainPresenter mainPresenter;
+
+    private ZhihuApplication getApplication() {
+        return (ZhihuApplication) Robolectric.application;
+    }
+
+    @Before
+    public void setUp() {
+        mainPresenter = Mockito.mock(MainPresenter.class);
+        getApplication().createScopedGraph(new TestMainModule()).inject(this);
+    }
+
+    @Module(
+            injects = {
+                    MainActivityTest.class,
+                    TestMainActivity.class
+            },
+            addsTo = AppModule.class,
+            overrides = true
+    )
+    static class TestMainModule {
+        @Provides
+        @Singleton
+        MainPresenter provideMainPresenter() {
+            return mainPresenter;
+        }
+    }
 
     @Test
     public void test_main_activity_title_should_be_set_on_create() throws Exception {
@@ -39,10 +78,22 @@ public class MainActivityTest {
     }
 
     @Test
-    public void test_container_fragment_should_be_proper_type_when_drawer_item_is_selected() {
-        MainActivity mainActivity = Robolectric.buildActivity(MainActivity.class).create().visible().start().resume().get();
+    public void test_drawer_should_default_selected_1() {
+        Robolectric.buildActivity(TestMainActivity.class).create().visible().start().get();
+        Mockito.verify(mainPresenter).onNavigationDrawerItemSelected(1);
+    }
+
+    @Test
+    public void test_click_drawer_item_should_work() {
+        Robolectric.buildActivity(TestMainActivity.class).create().visible().start().resume().get();
         EventBus.getDefault().post(new DrawerItemClickEvent(2));
-        Fragment fragment = mainActivity.getSupportFragmentManager().findFragmentById(R.id.container);
-        assertTrue("current main fragment should be instance of TopicListFragment", fragment instanceof TopicListFragment);
+        Mockito.verify(mainPresenter, Mockito.times(1)).onNavigationDrawerItemSelected(2);
+    }
+
+    static class TestMainActivity extends MainActivity {
+        @Override
+        public List<Object> getModules() {
+            return Arrays.<Object>asList(new TestMainModule());
+        }
     }
 }

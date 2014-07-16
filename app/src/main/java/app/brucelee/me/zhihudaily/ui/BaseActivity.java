@@ -9,7 +9,7 @@ import dagger.ObjectGraph;
 /**
  * Created by bruce on 7/2/14.
  */
-public abstract class BaseActivity extends FragmentActivity implements Moduabel {
+public abstract class BaseActivity extends FragmentActivity implements Injectable {
     private ObjectGraph activityGraph;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
