@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,19 +65,13 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
 
         View headerView = initViewPagerIndicator(inflater);
         initListView(headerView);
-
+        initPullToRefresh();
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        initPullToRefresh();
-    }
-
     private void initListView(View headerView) {
+        listView.addHeaderView(headerView);
         listView.setAdapter(newsAdapter);
-        ((ListView) listView).addHeaderView(headerView);
         listView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), false, true, this));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
