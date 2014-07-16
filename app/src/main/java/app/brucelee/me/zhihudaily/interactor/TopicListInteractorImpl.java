@@ -19,6 +19,6 @@ public class TopicListInteractorImpl implements TopicListInteractor {
 
     @Override
     public void fetch(OnFetchedListener<TopicList> listener) {
-        new TopicListTask(listener).executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
+        new TopicListTask(service, listener).executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
     }
 }

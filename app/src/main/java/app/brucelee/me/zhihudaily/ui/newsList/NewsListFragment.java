@@ -1,8 +1,11 @@
 package app.brucelee.me.zhihudaily.ui.newsList;
 
 import android.app.Activity;
+import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,14 +38,13 @@ import uk.co.senab.actionbarpulltorefresh.library.Options;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 
 public class NewsListFragment extends BaseFragment implements NewsListView {
-    ZhihuService service = ZhihuApplication.getInstance().getRestAdapter().create(ZhihuService.class);
     private static final String TAG = "NewsListFragment";
-    private OnFragmentInteractionListener listener;
     @InjectView(android.R.id.list) ListView listView;
     private NewsAdapter newsAdapter;
     private TopNewsViewPagerAdapter topNewsViewPagerAdapter;
     @InjectView(R.id.ptr_layout) PullToRefreshLayout pullToRefreshLayout;
     @Inject NewsListPresenter presenter;
+    @Inject Application application;
 
     public NewsListFragment() {
     }
@@ -60,16 +62,15 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
         View view = inflater.inflate(R.layout.fragment_news_list, container, false);
         ButterKnife.inject(this, view);
 
-        initPullToRefresh();
         View headerView = initViewPagerIndicator(inflater);
         initListView(headerView);
-
+        initPullToRefresh();
         return view;
     }
 
     private void initListView(View headerView) {
+        listView.addHeaderView(headerView);
         listView.setAdapter(newsAdapter);
-        ((ListView) listView).addHeaderView(headerView);
         listView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), false, true, this));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -100,6 +101,11 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
         return newsAdapter;
     }
 
+    @Override
+    public Context getContext() {
+        return application;
+    }
+
     private void initPullToRefresh() {
         ActionBarPullToRefresh.from(this.getActivity())
             .options(Options.create()
@@ -120,28 +126,7 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            listener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        listener = null;
-    }
-
-
-    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (null != listener) {
-            listener.onFragmentInteraction("");
-        }
     }
 
     public void setEmptyText(CharSequence emptyText) {

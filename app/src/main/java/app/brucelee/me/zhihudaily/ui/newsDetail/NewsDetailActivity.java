@@ -1,6 +1,7 @@
 package app.brucelee.me.zhihudaily.ui.newsDetail;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,8 +31,8 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailView {
     @InjectView(R.id.wv_news_content) WebView webView;
     @Inject NewsDetailPresenter presenter;
 
-    public static Intent newIntent(long newsId) {
-        Intent intent = new Intent(ZhihuApplication.getInstance(), NewsDetailActivity.class);
+    public static Intent newIntent(Context context, long newsId) {
+        Intent intent = new Intent(context, NewsDetailActivity.class);
         intent.putExtra(INTENT_NEWS_ID, newsId);
         return intent;
     }

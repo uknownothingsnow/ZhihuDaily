@@ -1,5 +1,6 @@
 package app.brucelee.me.zhihudaily.ui.drawer;
 
+import android.app.Application;
 import android.content.res.TypedArray;
 
 import java.util.Arrays;
@@ -43,11 +44,11 @@ public class DrawerModule {
     }
 
     @Provides @Singleton @DrawerTexts
-    String[] provideDrawerTexts(ZhihuApplication application) {
+    String[] provideDrawerTexts(Application application) {
         return application.getResources().getStringArray(R.array.drawer_texts);
     }
     @Provides @Singleton @DrawerIcons
-    int[] provideDrawerIcons(ZhihuApplication application) {
+    int[] provideDrawerIcons(Application application) {
         TypedArray res = application.getResources().obtainTypedArray(R.array.drawer_icons);
         int[] ids = new int[res.length()];
         for (int i = 0; i < ids.length; i++) {

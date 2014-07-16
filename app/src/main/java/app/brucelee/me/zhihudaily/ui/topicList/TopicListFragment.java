@@ -39,7 +39,6 @@ import it.gmariotti.cardslib.library.view.CardListView;
  * Created by bruce on 6/26/14.
  */
 public class TopicListFragment extends BaseFragment implements AbsListView.OnScrollListener, TopicListView {
-    ZhihuService service = ZhihuApplication.getInstance().getRestAdapter().create(ZhihuService.class);
     @InjectView(R.id.clv_topic_card_list) CardListView cardListView;
     @Inject TopicListPresenter presenter;
 
