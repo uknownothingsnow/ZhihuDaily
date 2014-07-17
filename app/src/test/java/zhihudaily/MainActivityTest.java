@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
@@ -31,6 +30,7 @@ import de.greenrobot.event.EventBus;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.*;
 
 @Config(emulateSdk = 18)
 @RunWith(RobolectricTestRunner.class)
@@ -44,7 +44,7 @@ public class MainActivityTest {
 
     @Before
     public void setUp() {
-        mainPresenter = Mockito.mock(MainPresenter.class);
+        mainPresenter = mock(MainPresenter.class);
         getApplication().createScopedGraph(new TestMainModule()).inject(this);
     }
 
@@ -80,14 +80,14 @@ public class MainActivityTest {
     @Test
     public void test_drawer_should_default_selected_1() {
         Robolectric.buildActivity(TestMainActivity.class).create().visible().start().get();
-        Mockito.verify(mainPresenter).onNavigationDrawerItemSelected(1);
+        verify(mainPresenter).onNavigationDrawerItemSelected(1);
     }
 
     @Test
     public void test_click_drawer_item_should_work() {
         Robolectric.buildActivity(TestMainActivity.class).create().visible().start().resume().get();
         EventBus.getDefault().post(new DrawerItemClickEvent(2));
-        Mockito.verify(mainPresenter, Mockito.times(1)).onNavigationDrawerItemSelected(2);
+        verify(mainPresenter, times(1)).onNavigationDrawerItemSelected(2);
     }
 
     static class TestMainActivity extends MainActivity {
