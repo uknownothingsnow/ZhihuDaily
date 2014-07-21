@@ -2,7 +2,6 @@ package app.brucelee.me.zhihudaily.ui.main;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.support.v4.widget.DrawerLayout;
 
@@ -13,6 +12,7 @@ import javax.inject.Inject;
 
 import app.brucelee.me.zhihudaily.event.DrawerItemClickEvent;
 import app.brucelee.me.zhihudaily.ui.BaseActivity;
+import app.brucelee.me.zhihudaily.ui.IPresenter;
 import app.brucelee.me.zhihudaily.ui.drawer.DrawerFragment;
 import app.brucelee.me.zhihudaily.R;
 import butterknife.ButterKnife;
@@ -37,6 +37,11 @@ public class MainActivity extends BaseActivity implements MainView {
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
         navigationDrawerFragment.setUp(R.id.navigation_drawer, drawerLayout);
+    }
+
+    @Override
+    protected IPresenter getPresenter() {
+        return presenter;
     }
 
     @Override

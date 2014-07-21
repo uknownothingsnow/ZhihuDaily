@@ -21,6 +21,7 @@ import app.brucelee.me.zhihudaily.bean.NewsDetail;
 import app.brucelee.me.zhihudaily.service.ZhihuService;
 import app.brucelee.me.zhihudaily.support.MyAsyncTask;
 import app.brucelee.me.zhihudaily.ui.BaseActivity;
+import app.brucelee.me.zhihudaily.ui.IPresenter;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -49,7 +50,11 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailView {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDefaultTextEncodingName("utf-8");
-//        presenter.fetch();
+    }
+
+    @Override
+    protected IPresenter getPresenter() {
+        return presenter;
     }
 
     @Override

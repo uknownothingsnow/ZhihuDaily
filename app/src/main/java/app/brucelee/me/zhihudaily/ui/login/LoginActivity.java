@@ -1,21 +1,16 @@
 package app.brucelee.me.zhihudaily.ui.login;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
-import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.Required;
-import com.mobsandgeeks.saripaar.annotation.TextRule;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,8 +18,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import app.brucelee.me.zhihudaily.R;
-import app.brucelee.me.zhihudaily.ZhihuApplication;
 import app.brucelee.me.zhihudaily.ui.BaseActivity;
+import app.brucelee.me.zhihudaily.ui.IPresenter;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -42,7 +37,7 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
     private Validator validator;
 
     @Inject
-    LoginPresenter loginPresenter;
+    LoginPresenter presenter;
 
     public static Intent newIntent(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -57,7 +52,12 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
         actionProgressButton.setMode(ActionProcessButton.Mode.ENDLESS);
         actionProgressButton.setOnClickListener(this);
         validator = new Validator(this);
-        validator.setValidationListener(loginPresenter);
+        validator.setValidationListener(presenter);
+    }
+
+    @Override
+    protected IPresenter getPresenter() {
+        return presenter;
     }
 
     @Override

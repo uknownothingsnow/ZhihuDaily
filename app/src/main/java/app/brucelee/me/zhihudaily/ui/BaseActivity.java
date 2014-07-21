@@ -22,4 +22,6 @@ public abstract class BaseActivity extends FragmentActivity implements Injectabl
         super.onDestroy();
         activityGraph = null;
     }
+
+    protected abstract IPresenter getPresenter();
 }
