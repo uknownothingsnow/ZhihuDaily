@@ -49,9 +49,20 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailView {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDefaultTextEncodingName("utf-8");
-        presenter.fetch();
+//        presenter.fetch();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        presenter.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.onResume();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

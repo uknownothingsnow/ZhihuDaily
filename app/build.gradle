@@ -35,12 +35,12 @@ android {
     }
     buildTypes {
         debug {
-            runProguard true
-            proguardFiles 'proguard-rules.txt'
+//            runProguard false
+//            proguardFiles 'proguard-rules.pro'
         }
         release {
-            runProguard false
-            proguardFiles 'proguard-rules.txt'
+//            runProguard false
+//            proguardFiles 'proguard-rules.pro'
         }
     }
     sourceSets {
@@ -79,7 +79,7 @@ dependencies {
 
     compile 'com.android.support:appcompat-v7:20.+'
     compile 'com.google.code.gson:gson:2.2.+'
-    compile 'com.squareup.retrofit:retrofit:1.6.0'
+    compile 'com.squareup.retrofit:retrofit:1.6.1'
     compile 'com.github.gabrielemariotti.cards:library:1.7.3'
     compile 'com.actionbarsherlock:viewpagerindicator:2.4.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.2'
@@ -89,6 +89,8 @@ dependencies {
     compile 'com.github.dmytrodanylyk.android-process-button:library:1.0.0'
     compile 'com.mobsandgeeks:android-saripaar:1.0.2'
     compile 'de.greenrobot:eventbus:2.2.1'
+    compile 'com.netflix.rxjava:rxjava-core:0.19.6'
+    compile 'com.netflix.rxjava:rxjava-android:0.19.6'
 
     // ================== TESTING LIBRARIES ======================
     androidTestCompile 'junit:junit:4.10'

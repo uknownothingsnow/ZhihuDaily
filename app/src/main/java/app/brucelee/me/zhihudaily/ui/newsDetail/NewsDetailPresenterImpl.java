@@ -3,6 +3,8 @@ package app.brucelee.me.zhihudaily.ui.newsDetail;
 import app.brucelee.me.zhihudaily.bean.NewsDetail;
 import app.brucelee.me.zhihudaily.interactor.NewsDetailInteractor;
 import app.brucelee.me.zhihudaily.ui.OnFetchedListener;
+import rx.Observer;
+import rx.Subscription;
 
 /**
  * Created by bruce on 7/9/14.
@@ -11,6 +13,7 @@ public class NewsDetailPresenterImpl implements NewsDetailPresenter, OnFetchedLi
 
     private NewsDetailView view;
     private NewsDetailInteractor interactor;
+    private Subscription request;
 
     public NewsDetailPresenterImpl(NewsDetailView view, NewsDetailInteractor interactor) {
         this.view = view;
@@ -26,6 +29,31 @@ public class NewsDetailPresenterImpl implements NewsDetailPresenter, OnFetchedLi
     @Override
     public void fetch() {
         interactor.fetch(view.getId(), this);
+    }
+
+    @Override
+    public void onPause() {
+        request.unsubscribe();
+    }
+
+    @Override
+    public void onResume() {
+        request = interactor.doFetch(view.getId(), new Observer<NewsDetail>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(NewsDetail newsDetail) {
+                onFetched(newsDetail);
+            }
+        });
     }
 
     private String getCustomerCss() {

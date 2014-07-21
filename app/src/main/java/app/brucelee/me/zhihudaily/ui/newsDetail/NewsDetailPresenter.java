@@ -9,4 +9,8 @@ public interface NewsDetailPresenter {
     public void show(NewsDetail newsDetail);
 
     public void fetch();
+
+    public void onPause();
+
+    public void onResume();
 }
