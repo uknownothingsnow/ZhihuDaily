@@ -20,17 +20,9 @@ public class NewsListInteractorImpl implements NewsListInteractor {
 
     @Override
     public void fetchItems(final OnFetchedListener<LatestNewsList> listener) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final LatestNewsList latestNews = service.getLatestNewsList();
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        listener.onFetched(latestNews);
-                    }
-                });
-            }
+        new Thread(() -> {
+            final LatestNewsList latestNews = service.getLatestNewsList();
+            handler.post(() -> listener.onFetched(latestNews));
         }).start();
     }
 }
