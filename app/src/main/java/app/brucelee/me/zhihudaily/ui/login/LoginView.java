@@ -10,10 +10,6 @@ public interface LoginView {
 
     public void hideProgress();
 
-    public void setEmailError();
-
-    public void setPasswordError();
-
     public String getEmail();
 
     public String getPassword();

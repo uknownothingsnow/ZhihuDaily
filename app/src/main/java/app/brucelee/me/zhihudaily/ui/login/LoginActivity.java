@@ -83,16 +83,6 @@ public class LoginActivity extends BaseActivity implements LoginView, View.OnCli
     }
 
     @Override
-    public void setEmailError() {
-        email.setError("email error");
-    }
-
-    @Override
-    public void setPasswordError() {
-        password.setError("password error");
-    }
-
-    @Override
     public String getEmail() {
         return email.getText().toString();
     }
