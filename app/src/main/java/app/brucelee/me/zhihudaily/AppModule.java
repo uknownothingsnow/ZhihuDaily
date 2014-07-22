@@ -6,9 +6,11 @@ import javax.inject.Singleton;
 
 import app.brucelee.me.zhihudaily.interactor.InteractorsModule;
 import app.brucelee.me.zhihudaily.service.ZhihuService;
+import app.brucelee.me.zhihudaily.support.ZhihuErrorHandler;
 import dagger.Module;
 import dagger.Provides;
 import retrofit.RestAdapter;
+import retrofit.client.OkClient;
 
 /**
  * Created by bruce on 7/2/14.
@@ -39,9 +41,14 @@ public class AppModule {
     }
 
     @Provides @Singleton RestAdapter provideRestAdapter() {
-        RestAdapter restAdapter = new RestAdapter.Builder()
+        RestAdapter.Builder builder = new RestAdapter.Builder()
                 .setEndpoint("http://news-at.zhihu.com/api/3")
-                .build();
+                .setClient(new OkClient())
+                .setErrorHandler(new ZhihuErrorHandler());
+        if (BuildConfig.DEBUG) {
+            builder.setLogLevel(RestAdapter.LogLevel.FULL);
+        }
+        RestAdapter restAdapter = builder.build();
         return restAdapter;
     }
 }

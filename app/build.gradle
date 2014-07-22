@@ -91,6 +91,8 @@ dependencies {
     compile 'de.greenrobot:eventbus:2.2.1'
     compile 'com.netflix.rxjava:rxjava-core:0.19.6'
     compile 'com.netflix.rxjava:rxjava-android:0.19.6'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+    compile 'com.squareup.okhttp:okhttp:2.0.0'
 
     // ================== TESTING LIBRARIES ======================
     androidTestCompile 'junit:junit:4.10'
