@@ -60,7 +60,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     dexOptions {
-        incremental true
+        incremental false
     }
 }
 
@@ -97,7 +97,6 @@ dependencies {
     compile 'com.netflix.rxjava:rxjava-android:0.19.6'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
     compile 'com.squareup.okhttp:okhttp:2.0.0'
-
     // ================== TESTING LIBRARIES ======================
     androidTestCompile 'junit:junit:4.10'
     androidTestCompile 'org.robolectric:robolectric:2.3'
