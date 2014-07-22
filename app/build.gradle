@@ -2,8 +2,8 @@ buildscript {
     repositories {
         mavenCentral()
         maven { url 'https://github.com/donnfelker/mvn-repo/raw/master/' }
-        //required to get the plugin working again with gradle:0.11+ and AS0.6.0
-        //maven { url 'https://github.com/rockerhieu/mvn-repo/raw/master/' }
+        maven { url '//required to get the plugin working again with gradle:0.11+ and AS0.6.0' }
+        maven { url '//maven { url \'https://github.com/rockerhieu/mvn-repo/raw/master/\' }' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.12.+'
@@ -11,6 +11,7 @@ buildscript {
         classpath 'org.robolectric:robolectric-gradle-plugin:0.11.+'
         //required to get the plugin working again on AS 0.6.0
         //classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.10.1-SNAPSHOT'
+        classpath 'me.tatarka:gradle-retrolambda:2.1.0'
     }
 }
 
@@ -23,6 +24,7 @@ allprojects {
 
 apply plugin: 'com.android.application'
 apply plugin: 'robolectric'
+apply plugin: 'retrolambda'
 
 android {
     compileSdkVersion 20
@@ -52,31 +54,33 @@ android {
     }
     productFlavors {
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    dexOptions {
+        incremental true
+    }
 }
 
 dependencies {
     // ================== LIBRARIES ======================
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-
     //Using the appcompat library is not necessary when the minsdk >= 14
     //compile 'com.android.support:appcompat-v7:+'
-
     //ignore lint complaining about an update: 21.+ is still in release candidate state
     compile 'com.android.support:support-v4:20.+'
-
     //for more information on the Butterknife injection framework
     //visit https://github.com/JakeWharton/butterknife
     compile 'com.jakewharton:butterknife:5.1.0'
-
     compile 'com.actionbarsherlock:viewpagerindicator:2.4.1'
-
     // for more information on the Crouton framework,
     // visit https://github.com/keyboardsurfer/Crouton
     //a fix for: Module version de.keyboardsurfer.android.widget:crouton:1.8.4 depends on libraries but is not a library itself
     compile('de.keyboardsurfer.android.widget:crouton:1.8.4@aar') {
         exclude group: 'com.google.android', module: 'support-v4'
     }
-
     compile 'com.android.support:appcompat-v7:20.+'
     compile 'com.google.code.gson:gson:2.2.+'
     compile 'com.squareup.retrofit:retrofit:1.6.0'
@@ -89,14 +93,13 @@ dependencies {
     compile 'com.github.dmytrodanylyk.android-process-button:library:1.0.0'
     compile 'com.mobsandgeeks:android-saripaar:1.0.2'
     compile 'de.greenrobot:eventbus:2.2.1'
-
     // ================== TESTING LIBRARIES ======================
     androidTestCompile 'junit:junit:4.10'
     androidTestCompile 'org.robolectric:robolectric:2.3'
     androidTestCompile 'com.squareup:fest-android:1.0.+'
     androidTestCompile 'org.bouncycastle:bcprov-jdk15on:1.50'
     androidTestCompile 'com.jakewharton:butterknife:5.1.0'
-    androidTestCompile "org.mockito:mockito-all:1.9.5"
+    androidTestCompile 'org.mockito:mockito-all:1.9.5'
 }
 
 //androidTest {
