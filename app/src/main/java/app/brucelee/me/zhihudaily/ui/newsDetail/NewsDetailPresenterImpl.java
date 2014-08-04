@@ -1,10 +1,17 @@
 package app.brucelee.me.zhihudaily.ui.newsDetail;
 
+import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
+import com.google.common.primitives.Chars;
+
 import app.brucelee.me.zhihudaily.bean.NewsDetail;
 import app.brucelee.me.zhihudaily.interactor.NewsDetailInteractor;
 import app.brucelee.me.zhihudaily.ui.OnFetchedListener;
 import rx.Observer;
 import rx.Subscription;
+
+import static com.google.common.base.Optional.fromNullable;
+import static com.google.common.base.Optional.of;
 
 /**
  * Created by bruce on 7/9/14.
@@ -100,10 +107,8 @@ public class NewsDetailPresenterImpl implements NewsDetailPresenter, OnFetchedLi
                 "\n" +
                 "\n" +
                 "</div>";
-        if (newsDetail.body == null) {
-            return "";
-        }
-        return newsDetail.body.replaceFirst("<div class=\"img-place-holder\"></div>", image);
+        Optional<String> body = fromNullable(newsDetail.body);
+        return body.isPresent() ? body.get().replaceFirst("<div class=\"img-place-holder\"></div>", image) : "";
     }
 
     private String buildCssAndJs(NewsDetail newsDetail) {
