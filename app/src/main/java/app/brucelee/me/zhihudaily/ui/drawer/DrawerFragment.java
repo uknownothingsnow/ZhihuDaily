@@ -179,10 +179,6 @@ public class DrawerFragment extends BaseFragment implements DrawerView {
         return super.onOptionsItemSelected(item);
     }
 
-    private ActionBar getActionBar() {
-        return getActivity().getActionBar();
-    }
-
     @Override
     public List<Object> getModules() {
         return Arrays.<Object>asList(new DrawerModule(this));
@@ -211,15 +207,5 @@ public class DrawerFragment extends BaseFragment implements DrawerView {
     @Override
     public boolean isFromSavedInstanceState() {
         return fromSavedInstanceState;
-    }
-
-    /**
-     * Callbacks interface that all activities using this fragment must implement.
-     */
-    public static interface NavigationDrawerCallbacks {
-        /**
-         * Called when an item in the navigation drawer is selected.
-         */
-        void onNavigationDrawerItemSelected(int position);
     }
 }

@@ -7,6 +7,9 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
+
 import app.brucelee.me.zhihudaily.R;
 import app.brucelee.me.zhihudaily.event.DrawerItemClickEvent;
 import app.brucelee.me.zhihudaily.ui.BaseFragment;
@@ -86,6 +89,13 @@ public class DrawerPresenterImpl implements DrawerPresenter {
 
         if (!isLearned() && !view.isFromSavedInstanceState()) {
             view.getDrawerLayout().openDrawer(view.getContainerView());
+            new ShowcaseView.Builder(((Fragment)view).getActivity())
+                    .setTarget(new ActionViewTarget(((Fragment)view).getActivity(), ActionViewTarget.Type.HOME))
+                    .setContentTitle("点左上角按钮或者向左滑动收起侧边栏")
+                    .setContentText("")
+                    .setStyle(R.style.CustomShowcaseTheme)
+                    .hideOnTouchOutside()
+                    .build();
         }
 
         // Defer code dependent on restoration of previous instance state.

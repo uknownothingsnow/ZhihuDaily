@@ -7,10 +7,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:0.12.+'
-        //classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.10.+'
         classpath 'org.robolectric:robolectric-gradle-plugin:0.11.+'
-        //required to get the plugin working again on AS 0.6.0
-        //classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.10.1-SNAPSHOT'
         classpath 'me.tatarka:gradle-retrolambda:2.2.2'
     }
 }
@@ -26,6 +23,10 @@ apply plugin: 'com.android.application'
 apply plugin: 'robolectric'
 apply plugin: 'retrolambda'
 
+def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
+
+
 android {
     compileSdkVersion 20
     buildToolsVersion '20.0.0'
@@ -34,11 +35,15 @@ android {
         targetSdkVersion 20
         versionCode 1
         versionName '1.0'
+        buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
+        buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
     }
     buildTypes {
         debug {
 //            runProguard false
 //            proguardFiles 'proguard-rules.pro'
+            packageNameSuffix '.dev'
+            versionNameSuffix '-dev'
         }
         release {
 //            runProguard false
@@ -99,6 +104,7 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.google.guava:guava:17.0'
     compile 'com.tundem.aboutlibraries:library:3.0.1@aar'
+    compile 'com.github.amlcurran.showcaseview:library:5.0.0'
     // ================== TESTING LIBRARIES ======================
     androidTestCompile 'junit:junit:4.10'
     androidTestCompile 'org.robolectric:robolectric:2.3'
