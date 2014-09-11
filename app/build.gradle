@@ -11,7 +11,7 @@ buildscript {
         classpath 'org.robolectric:robolectric-gradle-plugin:0.11.+'
         //required to get the plugin working again on AS 0.6.0
         //classpath 'org.robolectric.gradle:gradle-android-test-plugin:0.10.1-SNAPSHOT'
-        classpath 'me.tatarka:gradle-retrolambda:2.1.0'
+        classpath 'me.tatarka:gradle-retrolambda:2.2.2'
     }
 }
 
@@ -98,7 +98,7 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.google.guava:guava:17.0'
-
+    compile 'com.tundem.aboutlibraries:library:3.0.1@aar'
     // ================== TESTING LIBRARIES ======================
     androidTestCompile 'junit:junit:4.10'
     androidTestCompile 'org.robolectric:robolectric:2.3'
