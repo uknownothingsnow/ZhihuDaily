@@ -14,6 +14,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import app.brucelee.me.zhihudaily.R;
@@ -57,24 +58,24 @@ public class SettingsActivity extends PreferenceActivity {
         if (!isSimplePreferences(this)) {
             return;
         }
+        addPreferencesFromResource(R.xml.preference_headers_legacy);
 
         // In the simplified UI, fragments are not used at all and we instead
         // use the older PreferenceActivity APIs.
-
         // Add 'general' preferences.
         addPreferencesFromResource(R.xml.pref_general);
 
         // Add 'notifications' preferences, and a corresponding header.
-        PreferenceCategory fakeHeader = new PreferenceCategory(this);
-        fakeHeader.setTitle(R.string.pref_header_notifications);
-        getPreferenceScreen().addPreference(fakeHeader);
-        addPreferencesFromResource(R.xml.pref_notification);
-
-        // Add 'data and sync' preferences, and a corresponding header.
-        fakeHeader = new PreferenceCategory(this);
-        fakeHeader.setTitle(R.string.pref_header_data_sync);
-        getPreferenceScreen().addPreference(fakeHeader);
-        addPreferencesFromResource(R.xml.pref_data_sync);
+//        PreferenceCategory fakeHeader = new PreferenceCategory(this);
+//        fakeHeader.setTitle(R.string.pref_header_notifications);
+//        getPreferenceScreen().addPreference(fakeHeader);
+//        addPreferencesFromResource(R.xml.pref_notification);
+//
+//        // Add 'data and sync' preferences, and a corresponding header.
+//        fakeHeader = new PreferenceCategory(this);
+//        fakeHeader.setTitle(R.string.pref_header_data_sync);
+//        getPreferenceScreen().addPreference(fakeHeader);
+//        addPreferencesFromResource(R.xml.pref_data_sync);
 
         // Bind the summaries of EditText/List/Dialog/Ringtone preferences to
         // their values. When their values change, their summaries are updated
