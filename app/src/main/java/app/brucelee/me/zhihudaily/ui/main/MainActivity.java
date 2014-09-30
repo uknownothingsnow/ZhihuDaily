@@ -20,6 +20,7 @@ import app.brucelee.me.zhihudaily.ui.BaseActivity;
 import app.brucelee.me.zhihudaily.ui.IPresenter;
 import app.brucelee.me.zhihudaily.ui.drawer.DrawerFragment;
 import app.brucelee.me.zhihudaily.R;
+import app.brucelee.me.zhihudaily.ui.setting.SettingsActivity;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
@@ -71,6 +72,10 @@ public class MainActivity extends BaseActivity implements MainView {
         switch (item.getItemId()) {
             case R.id.action_about:
                 gotoAbout();
+                return true;
+            case R.id.action_test:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
