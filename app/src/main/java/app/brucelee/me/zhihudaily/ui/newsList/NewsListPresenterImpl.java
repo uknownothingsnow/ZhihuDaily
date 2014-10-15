@@ -2,10 +2,6 @@ package app.brucelee.me.zhihudaily.ui.newsList;
 
 import android.app.Activity;
 
-import com.google.common.collect.FluentIterable;
-
-import java.util.List;
-
 import app.brucelee.me.zhihudaily.bean.LatestNewsList;
 import app.brucelee.me.zhihudaily.bean.News;
 import app.brucelee.me.zhihudaily.interactor.NewsListInteractor;
@@ -37,17 +33,18 @@ public class NewsListPresenterImpl implements NewsListPresenter, OnFetchedListen
     }
 
     @Override
-    public void loadMore(String date) {
-        interactor.loadMore(this, ((NewsListFragment) view), "");
+    public void loadMore() {
+        interactor.loadMore(this, ((NewsListFragment) view), lastDate);
     }
 
     @Override
     public void onFetched(LatestNewsList latestNewsList) {
-        view.setNewsItems(latestNewsList.news, latestNewsList.topNews);
+        lastDate = latestNewsList.date;
+        view.onNewsFetched(latestNewsList.news, latestNewsList.topNews);
     }
 
     @Override
     public void onMoreLoaded(LatestNewsList data) {
-
+        view.onMoreLoaded(data.news);
     }
 }

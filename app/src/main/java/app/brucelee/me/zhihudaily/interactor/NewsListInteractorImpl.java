@@ -41,7 +41,7 @@ public class NewsListInteractorImpl implements NewsListInteractor {
 
             @Override
             public void onError(Throwable e) {
-
+                e.printStackTrace();
             }
 
             @Override

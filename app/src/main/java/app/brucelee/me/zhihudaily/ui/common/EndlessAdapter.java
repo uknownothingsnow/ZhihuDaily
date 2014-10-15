@@ -252,7 +252,7 @@ public abstract class EndlessAdapter<T> extends BaseAdapter {
         if (isLoadingData) {
             totalItemCount -= 1;
         }
-        boolean lastItemReached = (totalItemCount > 0)
+        boolean lastItemReached = (totalItemCount > 1)
             && (totalItemCount - visibleItemCount == firstVisibleItem);
         return !isLoadingData && lastItemReached;
     }

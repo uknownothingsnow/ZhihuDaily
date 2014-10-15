@@ -80,8 +80,7 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
                 if (newsAdapter.shouldRequestNextPage(firstVisibleItem, visibleItemCount, totalItemCount)) {
                     if (!newsAdapter.isLoadingData() && !newsAdapter.isLoadAllFinished()) {
                         newsAdapter.setIsLoadingData(true);
-                        new Handler().postDelayed(() -> newsAdapter.setIsLoadingData(false)
-                            , 5000);
+                        presenter.loadMore();
                     }
                 }
             }
@@ -100,10 +99,16 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
     }
 
     @Override
-    public void setNewsItems(List<News> newsList, List<TopNews> topNewsList) {
+    public void onNewsFetched(List<News> newsList, List<TopNews> topNewsList) {
         newsAdapter.clear();
         newsAdapter.addAll(newsList);
         topNewsViewPagerAdapter.setTopNews(topNewsList);
+    }
+
+    @Override
+    public void onMoreLoaded(List<News> newsList) {
+        newsAdapter.setIsLoadingData(false);
+        newsAdapter.addAll(newsList);
     }
 
     @Override

@@ -16,7 +16,9 @@ import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 public interface NewsListView extends AbsListView.OnItemClickListener, OnRefreshListener, AbsListView.OnScrollListener {
     public ListView getListView();
 
-    public void setNewsItems(List<News> newsList, List<TopNews> topNewsList);
+    public void onNewsFetched(List<News> newsList, List<TopNews> topNewsList);
+
+    public void onMoreLoaded(List<News> newsList);
 
     public NewsAdapter getNewsAdapter();
 
