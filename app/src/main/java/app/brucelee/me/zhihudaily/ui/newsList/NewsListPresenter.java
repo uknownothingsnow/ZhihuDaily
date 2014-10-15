@@ -5,4 +5,6 @@ package app.brucelee.me.zhihudaily.ui.newsList;
  */
 public interface NewsListPresenter {
     public void onListItemClick(final int position);
+
+    public void loadMore(String date);
 }

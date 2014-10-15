@@ -13,6 +13,10 @@ import rx.Observable;
 public interface ZhihuService {
     @GET("/news/latest")
     LatestNewsList getLatestNewsList();
+
+    @GET("/news/before/{date}")
+    Observable<LatestNewsList> loadMoreNews(@Path("date") String date);
+
     @GET("/themes")
     TopicList getTopicList();
     @GET("/story/{id}")
