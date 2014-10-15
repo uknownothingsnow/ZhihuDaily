@@ -15,4 +15,5 @@
     <color name="subscribe_button_subscribed_border_light">#666666</color>
     <color name="subscribe_button_subscribed_border_dark">#707070</color>
     <color name="list_item_desc_light">#B7B7B7</color>
+    <color name="text_color_shadow">#888888</color>
 </resources>

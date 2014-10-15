@@ -39,4 +39,6 @@
         <item>@drawable/menu_setting</item>
     </array>
 
+    <string name="load_more">正在获取内容......</string>
+
 </resources>

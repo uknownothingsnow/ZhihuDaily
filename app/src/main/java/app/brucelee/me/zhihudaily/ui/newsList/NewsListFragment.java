@@ -1,11 +1,10 @@
 package app.brucelee.me.zhihudaily.ui.newsList;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,11 +24,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import app.brucelee.me.zhihudaily.R;
-
-import app.brucelee.me.zhihudaily.ZhihuApplication;
 import app.brucelee.me.zhihudaily.bean.News;
 import app.brucelee.me.zhihudaily.bean.TopNews;
-import app.brucelee.me.zhihudaily.service.ZhihuService;
 import app.brucelee.me.zhihudaily.ui.BaseFragment;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -71,13 +67,29 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
     private void initListView(View headerView) {
         listView.addHeaderView(headerView);
         listView.setAdapter(newsAdapter);
-        listView.setOnScrollListener(new PauseOnScrollListener(ImageLoader.getInstance(), false, true, this));
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        PauseOnScrollListener pauseOnScrollListener = new PauseOnScrollListener(ImageLoader.getInstance(), false, true, this);
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                if (position != 0) {
-                    presenter.onListItemClick(position - 1);
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                pauseOnScrollListener.onScrollStateChanged(view, scrollState);
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                pauseOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+                if (newsAdapter.shouldRequestNextPage(firstVisibleItem, visibleItemCount, totalItemCount)) {
+                    if (!newsAdapter.isLoadingData() && !newsAdapter.isLoadAllFinished()) {
+                        newsAdapter.setIsLoadingData(true);
+                        new Handler().postDelayed(() -> newsAdapter.setIsLoadingData(false)
+                            , 5000);
+                    }
                 }
+            }
+        });
+
+        listView.setOnItemClickListener((adapterView, view, position, id) -> {
+            if (position != 0) {
+                presenter.onListItemClick(position - 1);
             }
         });
     }
@@ -89,11 +101,9 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
 
     @Override
     public void setNewsItems(List<News> newsList, List<TopNews> topNewsList) {
-        newsAdapter.setNewsList(newsList);
-        newsAdapter.notifyDataSetChanged();
-
+        newsAdapter.clear();
+        newsAdapter.addAll(newsList);
         topNewsViewPagerAdapter.setTopNews(topNewsList);
-        topNewsViewPagerAdapter.notifyDataSetChanged();
     }
 
     @Override

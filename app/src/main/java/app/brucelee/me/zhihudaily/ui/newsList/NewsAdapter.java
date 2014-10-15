@@ -15,53 +15,31 @@ import java.util.List;
 
 import app.brucelee.me.zhihudaily.R;
 import app.brucelee.me.zhihudaily.bean.News;
+import app.brucelee.me.zhihudaily.ui.common.EndlessAdapter;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
  * Created by bruce on 6/25/14.
  */
-public class NewsAdapter extends BaseAdapter {
-    private List<News> newsList = new ArrayList<News>();
-    private Context context;
+public class NewsAdapter extends EndlessAdapter<News> {
 
     public NewsAdapter(Context context) {
-        this.context = context;
-    }
-
-    public void setNewsList(List<News> newsList) {
-        this.newsList.clear();
-        this.newsList.addAll(newsList);
-        notifyDataSetChanged();
+        super(context);
     }
 
     @Override
-    public int getCount() {
-        return newsList.size();
-    }
-
-    @Override
-    public Object getItem(int i) {
-        return newsList.get(i);
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return 0;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    protected View doGetView(int position, View convertView, ViewGroup parent) {
         Holder holder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.news_list_item, null);
+            convertView = LayoutInflater.from(this.context).inflate(R.layout.news_list_item, null);
             holder = new Holder(convertView);
             convertView.setTag(holder);
         } else {
             holder = (Holder) convertView.getTag();
         }
 
-        News news = newsList.get(position);
+        News news = getItem(position);
         holder.updateView(news);
         return convertView;
     }
