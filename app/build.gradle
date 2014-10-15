@@ -72,6 +72,7 @@ android {
 dependencies {
     // ================== LIBRARIES ======================
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    compile project(':AndroidBootstrap')
     //Using the appcompat library is not necessary when the minsdk >= 14
     //compile 'com.android.support:appcompat-v7:+'
     //ignore lint complaining about an update: 21.+ is still in release candidate state
