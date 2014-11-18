@@ -2,13 +2,11 @@ buildscript {
     repositories {
         mavenCentral()
         maven { url 'https://github.com/donnfelker/mvn-repo/raw/master/' }
-        maven { url '//required to get the plugin working again with gradle:0.11+ and AS0.6.0' }
-        maven { url '//maven { url \'https://github.com/rockerhieu/mvn-repo/raw/master/\' }' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.+'
-        classpath 'org.robolectric:robolectric-gradle-plugin:0.11.+'
-        classpath 'me.tatarka:gradle-retrolambda:2.2.2'
+        classpath 'com.android.tools.build:gradle:0.14.2'
+        classpath 'org.robolectric:robolectric-gradle-plugin:0.12.0'
+        classpath 'me.tatarka:gradle-retrolambda:2.4.1'
     }
 }
 
@@ -23,26 +21,19 @@ apply plugin: 'com.android.application'
 apply plugin: 'robolectric'
 apply plugin: 'retrolambda'
 
-def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
-def buildTime = new Date().format("yyyy-MM-dd'T'HH:mm'Z'", TimeZone.getTimeZone("UTC"))
-
-
 android {
-    compileSdkVersion 20
-    buildToolsVersion '20.0.0'
+    compileSdkVersion 21
+    buildToolsVersion '21.1.0'
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 20
+        targetSdkVersion 21
         versionCode 1
         versionName '1.0'
-        buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
-        buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
     }
     buildTypes {
         debug {
 //            runProguard false
 //            proguardFiles 'proguard-rules.pro'
-            packageNameSuffix '.dev'
             versionNameSuffix '-dev'
         }
         release {
@@ -73,18 +64,9 @@ dependencies {
     // ================== LIBRARIES ======================
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     compile project(':AndroidBootstrap')
-    //Using the appcompat library is not necessary when the minsdk >= 14
-    //compile 'com.android.support:appcompat-v7:+'
-    //ignore lint complaining about an update: 21.+ is still in release candidate state
-    //for more information on the Butterknife injection framework
-    //visit https://github.com/JakeWharton/butterknife
-    // for more information on the Crouton framework,
-    // visit https://github.com/keyboardsurfer/Crouton
-    //a fix for: Module version de.keyboardsurfer.android.widget:crouton:1.8.4 depends on libraries but is not a library itself
     compile('de.keyboardsurfer.android.widget:crouton:1.8.4@aar') {
         exclude group: 'com.google.android', module: 'support-v4'
     }
-    compile 'com.actionbarsherlock:viewpagerindicator:2.4.1'
     provided 'com.squareup.dagger:dagger-compiler:1.2.+'
     // ================== TESTING LIBRARIES ======================
     androidTestCompile 'junit:junit:4.10'
@@ -93,11 +75,11 @@ dependencies {
     androidTestCompile 'org.bouncycastle:bcprov-jdk15on:1.50'
     androidTestCompile 'com.jakewharton:butterknife:5.1.0'
     androidTestCompile 'org.mockito:mockito-all:1.9.5'
-    compile 'com.android.support:support-v4:20.0.0'
+    compile 'com.android.support:support-v4:21.0.0'
     compile 'com.jakewharton:butterknife:5.1.0'
     compile 'com.actionbarsherlock:viewpagerindicator:2.4.1'
-    compile 'com.android.support:appcompat-v7:20.0.0'
-    compile 'com.google.code.gson:gson:2.2.+'
+    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.google.code.gson:gson:2.3'
     compile 'com.squareup.retrofit:retrofit:1.6.1'
     compile 'com.github.gabrielemariotti.cards:library:1.7.3'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.2'
@@ -110,26 +92,7 @@ dependencies {
     compile 'com.netflix.rxjava:rxjava-android:0.19.6'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
     compile 'com.squareup.okhttp:okhttp:2.0.0'
-    compile 'com.google.guava:guava:17.0'
+    compile 'com.google.guava:guava:18.0'
     compile 'com.tundem.aboutlibraries:library:3.0.1@aar'
     compile 'com.github.amlcurran.showcaseview:library:5.0.0'
-}
-
-//androidTest {
-//    include '**/*Test.class'
-//    maxHeapSize = "2048m"
-//}
-
-robolectric {
-    // configure the set of classes for JUnit tests
-    include '**/*Test.class'
-    //exclude '**/espresso/**/*.class'
-
-    // configure max heap size of the test JVM
-    maxHeapSize = "2048m"
-}
-
-tasks.withType(Test) {
-    //makes the standard streams (err and out) visible at console when running tests
-    testLogging.showStandardStreams = true
 }
