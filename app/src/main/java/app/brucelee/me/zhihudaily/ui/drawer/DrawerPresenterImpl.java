@@ -1,11 +1,12 @@
 package app.brucelee.me.zhihudaily.ui.drawer;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
@@ -78,7 +79,7 @@ public class DrawerPresenterImpl implements DrawerPresenter {
 
     @Override
     public void initListView() {
-        view.getListView().setAdapter(new DrawerAdapter(getActionBar().getThemedContext(), ((BaseFragment) view).getFragmentGraph()));
+        view.getListView().setAdapter(new DrawerAdapter(((BaseFragment) view).getActivity(), ((BaseFragment) view).getFragmentGraph()));
         view.getListView().setItemChecked(currentSelectedPosition, true);
     }
 
@@ -108,6 +109,6 @@ public class DrawerPresenterImpl implements DrawerPresenter {
     }
 
     private ActionBar getActionBar() {
-        return ((Fragment) view).getActivity().getActionBar();
+        return ((ActionBarActivity)((Fragment) view).getActivity()).getSupportActionBar();
     }
 }

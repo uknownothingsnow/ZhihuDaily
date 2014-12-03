@@ -1,11 +1,25 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="subscribeButtonBackgroundSubscribed">@drawable/btn_subscribe_subscribed_light</item>
-        <item name="subscribeButtonBackgroundUnsubscribed">@drawable/btn_subscribe_unsubscribed_light</item>
-        <item name="listItemDescTextColor">@color/list_item_desc_light</item>
+    <style name="AppTheme" parent="BaseTheme">
+    </style>
+
+    <style name="BaseTheme" parent="Theme.AppCompat">
+        <!-- Here we setting appcompat’s actionBarStyle -->
+        <item name="windowActionBar">false</item>
+
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+
+        <!-- ...and here we setting appcompat’s color theming attrs -->
+        <item name="colorPrimary">@color/theme_default_primary</item>
+        <item name="colorPrimaryDark">@color/theme_default_primary_dark</item>
+        <item name="colorAccent">@color/theme_accent</item>
+
+        <item name="android:windowBackground">@color/theme_window_background</item>
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">false</item>
+        <item name="color">@android:color/white</item>
     </style>
 
     <style name="CustomShowcaseTheme" parent="ShowcaseView.Light">
