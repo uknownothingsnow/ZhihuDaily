@@ -1,15 +1,11 @@
 package app.brucelee.me.zhihudaily.ui.drawer;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-
-import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ActionViewTarget;
 
 import app.brucelee.me.zhihudaily.R;
 import app.brucelee.me.zhihudaily.event.DrawerItemClickEvent;
@@ -52,11 +48,10 @@ public class DrawerPresenterImpl implements DrawerPresenter {
 
     @Override
     public void showActionBar() {
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setTitle(R.string.app_name);
     }
 
@@ -85,30 +80,30 @@ public class DrawerPresenterImpl implements DrawerPresenter {
 
     @Override
     public void setUp() {
-        view.getDrawerLayout().setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        showActionBar();
+//        view.getDrawerLayout().setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+//        showActionBar();
 
-        if (!isLearned() && !view.isFromSavedInstanceState()) {
-            view.getDrawerLayout().openDrawer(view.getContainerView());
-            new ShowcaseView.Builder(((Fragment)view).getActivity())
-                    .setTarget(new ActionViewTarget(((Fragment)view).getActivity(), ActionViewTarget.Type.HOME))
-                    .setContentTitle("点左上角按钮或者向左滑动收起侧边栏")
-                    .setContentText("")
-                    .setStyle(R.style.CustomShowcaseTheme)
-                    .hideOnTouchOutside()
-                    .build();
-        }
+//        if (!isLearned() && !view.isFromSavedInstanceState()) {
+//            view.getDrawerLayout().openDrawer(view.getContainerView());
+//            new ShowcaseView.Builder(((Fragment)view).getActivity())
+//                    .setTarget(new ActionViewTarget(((Fragment)view).getActivity(), ActionViewTarget.Type.HOME))
+//                    .setContentTitle("点左上角按钮或者向左滑动收起侧边栏")
+//                    .setContentText("")
+//                    .setStyle(R.style.CustomShowcaseTheme)
+//                    .hideOnTouchOutside()
+//                    .build();
+//        }
 
         // Defer code dependent on restoration of previous instance state.
-        view.getDrawerLayout().post(new Runnable() {
-            @Override
-            public void run() {
-                view.getDrawerToggle().syncState();
-            }
-        });
+//        view.getDrawerLayout().post(new Runnable() {
+//            @Override
+//            public void run() {
+//                view.getDrawerToggle().syncState();
+//            }
+//        });
     }
 
-    private ActionBar getActionBar() {
+    private ActionBar getSupportActionBar() {
         return ((ActionBarActivity)((Fragment) view).getActivity()).getSupportActionBar();
     }
 }

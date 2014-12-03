@@ -14,6 +14,7 @@
 
     <!-- A DrawerLayout is intended to be used as the top-level content view using match_parent for both width and height to consume the full space available. -->
     <android.support.v4.widget.DrawerLayout
+        android:layout_below="@+id/toolbar"
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -39,5 +40,5 @@
             android:name="app.brucelee.me.zhihudaily.ui.drawer.DrawerFragment"
             tools:layout="@layout/fragment_navigation_drawer" />
 
-</android.support.v4.widget.DrawerLayout>
+    </android.support.v4.widget.DrawerLayout>
 </RelativeLayout>

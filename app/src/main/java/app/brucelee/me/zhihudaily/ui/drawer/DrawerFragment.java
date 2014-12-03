@@ -3,13 +3,14 @@ package app.brucelee.me.zhihudaily.ui.drawer;
 
 import android.app.Activity;
 import android.app.ActionBar;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -106,7 +107,7 @@ public class DrawerFragment extends BaseFragment implements DrawerView {
      * @param fragmentId   The android:id of this fragment in its activity's layout.
      * @param drawerLayout The DrawerLayout containing this fragment's UI.
      */
-    public void setUp(int fragmentId, DrawerLayout drawerLayout) {
+    public void setUp(int fragmentId, DrawerLayout drawerLayout, Toolbar toolbar) {
         fragmentContainerView = getActivity().findViewById(fragmentId);
         this.drawerLayout = drawerLayout;
 
@@ -116,7 +117,7 @@ public class DrawerFragment extends BaseFragment implements DrawerView {
         drawerToggle = new ActionBarDrawerToggle(
                 getActivity(),                    /* host Activity */
                 drawerLayout,                    /* DrawerLayout object */
-                R.drawable.ic_drawer,             /* nav drawer image to replace 'Up' caret */
+                toolbar,             /* nav drawer image to replace 'Up' caret */
                 R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
                 R.string.navigation_drawer_close  /* "close drawer" description for accessibility */
         ) {
@@ -144,6 +145,7 @@ public class DrawerFragment extends BaseFragment implements DrawerView {
         };
 
         this.drawerLayout.setDrawerListener(drawerToggle);
+        drawerToggle.syncState();
     }
 
     @Override
@@ -159,25 +161,25 @@ public class DrawerFragment extends BaseFragment implements DrawerView {
         drawerToggle.onConfigurationChanged(newConfig);
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // If the drawer is open, show the global app actions in the action bar. See also
         // showGlobalContextActionBar, which controls the top-left area of the action bar.
-        if (drawerLayout != null && isDrawerOpen()) {
-            inflater.inflate(R.menu.global, menu);
-            presenter.showActionBar();
-        }
-        super.onCreateOptionsMenu(menu, inflater);
-    }
+//        if (drawerLayout != null && isDrawerOpen()) {
+//            inflater.inflate(R.menu.global, menu);
+//            presenter.showActionBar();
+//        }
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (drawerToggle.onOptionsItemSelected(item)) {
+//            return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     @Override
     public List<Object> getModules() {

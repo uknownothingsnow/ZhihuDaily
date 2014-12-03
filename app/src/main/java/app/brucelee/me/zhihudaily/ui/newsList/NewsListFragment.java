@@ -4,8 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,14 +31,13 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.Options;
-import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 
 public class NewsListFragment extends BaseFragment implements NewsListView {
     private static final String TAG = "NewsListFragment";
     @InjectView(android.R.id.list) ListView listView;
     private NewsAdapter newsAdapter;
     private TopNewsViewPagerAdapter topNewsViewPagerAdapter;
-    @InjectView(R.id.ptr_layout) PullToRefreshLayout pullToRefreshLayout;
+    @InjectView(R.id.swipe_container) SwipeRefreshLayout swipeRefreshLayout;
     @Inject NewsListPresenter presenter;
     @Inject Application application;
 
@@ -122,13 +121,33 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
     }
 
     private void initPullToRefresh() {
-        ActionBarPullToRefresh.from(this.getActivity())
-            .options(Options.create()
-                    .scrollDistance(.5f)
-                    .build())
-            .listener(this)
-            .allChildrenArePullable()
-            .setup(pullToRefreshLayout);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.theme_accent));
+        swipeRefreshLayout.setRefreshing(true);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new AsyncTask<Void, Void, Void>() {
+
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        try {
+                            Thread.sleep(3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void result) {
+                        super.onPostExecute(result);
+
+                        // Notify PullToRefreshLayout that the refresh has finished
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }.execute();
+            }
+        });
     }
 
     private View initViewPagerIndicator(LayoutInflater inflater) {
@@ -154,26 +173,7 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
 
     @Override
     public void onRefreshStarted(View view) {
-        new AsyncTask<Void, Void, Void>() {
 
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void result) {
-                super.onPostExecute(result);
-
-                // Notify PullToRefreshLayout that the refresh has finished
-                pullToRefreshLayout.setRefreshComplete();
-            }
-        }.execute();
     }
 
     @Override

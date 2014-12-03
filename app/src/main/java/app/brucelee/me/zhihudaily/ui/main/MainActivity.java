@@ -3,6 +3,7 @@ package app.brucelee.me.zhihudaily.ui.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.support.v4.widget.DrawerLayout;
@@ -48,7 +49,7 @@ public class MainActivity extends BaseActivity implements MainView {
         navigationDrawerFragment = (DrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
-        navigationDrawerFragment.setUp(R.id.navigation_drawer, drawerLayout);
+        navigationDrawerFragment.setUp(R.id.navigation_drawer, this.drawerLayout, toolbar);
     }
 
     @Override
