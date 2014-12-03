@@ -1,6 +1,7 @@
 package app.brucelee.me.zhihudaily.ui.newsList;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,38 +17,53 @@ import java.util.List;
 import app.brucelee.me.zhihudaily.R;
 import app.brucelee.me.zhihudaily.bean.News;
 import app.brucelee.me.zhihudaily.ui.common.EndlessAdapter;
+import app.brucelee.me.zhihudaily.ui.newsDetail.NewsDetailActivity;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
  * Created by bruce on 6/25/14.
  */
-public class NewsAdapter extends EndlessAdapter<News> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.Holder> {
+    private List<News> newsList;
 
-    public NewsAdapter(Context context) {
-        super(context);
+    public NewsAdapter(List<News> newsList) {
+        this.newsList = newsList;
     }
 
     @Override
-    protected View doGetView(int position, View convertView, ViewGroup parent) {
-        Holder holder;
-        if (convertView == null) {
-            convertView = LayoutInflater.from(this.context).inflate(R.layout.news_list_item, null);
-            holder = new Holder(convertView);
-            convertView.setTag(holder);
-        } else {
-            holder = (Holder) convertView.getTag();
-        }
-
-        News news = getItem(position);
-        holder.updateView(news);
-        return convertView;
+    public Holder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.news_list_item, viewGroup, false);
+        return new Holder(view);
     }
 
-    static class Holder {
+    @Override
+    public void onBindViewHolder(Holder holder, int i) {
+        holder.updateView(newsList.get(i));
+    }
+
+    @Override
+    public int getItemCount() {
+        return newsList.size();
+    }
+
+    public void addNewsList(List<News> newsList) {
+        this.newsList.addAll(newsList);
+    }
+
+    public News getItem(int position) {
+        return this.newsList.get(position);
+    }
+
+    public void clear() {
+        this.newsList.clear();
+    }
+
+    static class Holder extends RecyclerView.ViewHolder {
         @InjectView(R.id.tv_news_list_item_title) TextView title;
         @InjectView(R.id.iv_news_list_item_image) ImageView image;
         public Holder(View view) {
+            super(view);
             ButterKnife.inject(this, view);
         }
 

@@ -20,14 +20,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="ui.login.LoginActivity"
+            android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login"
-            android:parentActivityName="ui.main.MainActivity" >
+            android:parentActivityName=".ui.main.MainActivity" >
         </activity>
         <activity
-            android:name="ui.newsDetail.NewsDetailActivity"
+            android:name=".ui.newsDetail.NewsDetailActivity"
             android:label=""
-            android:parentActivityName="ui.main.MainActivity" >
+            android:parentActivityName=".ui.main.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.main.MainActivity" />
@@ -35,7 +35,7 @@
         <activity android:name="com.tundem.aboutlibraries.ui.LibsActivity" >
         </activity>
         <activity
-            android:name="ui.setting.SettingsActivity"
+            android:name=".ui.setting.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme.Settings">
         </activity>

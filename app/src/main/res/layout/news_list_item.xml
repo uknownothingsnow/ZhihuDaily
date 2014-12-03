@@ -18,6 +18,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textSize="20dp"
+            android:textColor="@color/text"
             android:text="1234567890asdfghjkagdg"/>
         <ImageView
             android:id="@+id/iv_news_list_item_image"

@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.viewpagerindicator.CirclePageIndicator;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,12 +32,10 @@ import app.brucelee.me.zhihudaily.bean.TopNews;
 import app.brucelee.me.zhihudaily.ui.BaseFragment;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
-import uk.co.senab.actionbarpulltorefresh.library.Options;
 
 public class NewsListFragment extends BaseFragment implements NewsListView {
     private static final String TAG = "NewsListFragment";
-    @InjectView(android.R.id.list) ListView listView;
+    @InjectView(R.id.list) RecyclerView recyclerView;
     private NewsAdapter newsAdapter;
     private TopNewsViewPagerAdapter topNewsViewPagerAdapter;
     @InjectView(R.id.swipe_container) SwipeRefreshLayout swipeRefreshLayout;
@@ -47,7 +48,7 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        newsAdapter = new NewsAdapter(getActivity());
+        newsAdapter = new NewsAdapter(new ArrayList<>());
         topNewsViewPagerAdapter = new TopNewsViewPagerAdapter(getFragmentManager());
     }
 
@@ -57,57 +58,69 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
         View view = inflater.inflate(R.layout.fragment_news_list, container, false);
         ButterKnife.inject(this, view);
 
-        View headerView = initViewPagerIndicator(inflater);
-        initListView(headerView);
+//        View headerView = initViewPagerIndicator(inflater);
+        initListView();
         initPullToRefresh();
         return view;
     }
 
-    private void initListView(View headerView) {
-        listView.addHeaderView(headerView);
-        listView.setAdapter(newsAdapter);
-        PauseOnScrollListener pauseOnScrollListener = new PauseOnScrollListener(ImageLoader.getInstance(), false, true, this);
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                pauseOnScrollListener.onScrollStateChanged(view, scrollState);
-            }
+    private void initListView() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+//        recyclerView.addHeaderView(headerView);
+        recyclerView.setAdapter(newsAdapter);
+        recyclerView.addOnItemTouchListener(
+            new RecyclerItemClickListener(getContext(), (view, position) -> {
+                // do whatever
+                presenter.onListItemClick(position);
+            })
+        );
+//        PauseOnScrollListener pauseOnScrollListener = new PauseOnScrollListener(ImageLoader.getInstance(), false, true, this);
+//        recyclerView.setOnScrollListener(new AbsListView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(AbsListView view, int scrollState) {
+//                pauseOnScrollListener.onScrollStateChanged(view, scrollState);
+//            }
+//
+//            @Override
+//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//                int topRowVerticalPosition =
+//                    (recyclerView == null || recyclerView.getChildCount() == 0) ?
+//                        0 : recyclerView.getChildAt(0).getTop();
+//                swipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
+//
+//                pauseOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+//                if (newsAdapter.shouldRequestNextPage(firstVisibleItem, visibleItemCount, totalItemCount)) {
+//                    if (!newsAdapter.isLoadingData() && !newsAdapter.isLoadAllFinished()) {
+//                        newsAdapter.setIsLoadingData(true);
+//                        presenter.loadMore();
+//                    }
+//                }
+//            }
+//        });
 
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                pauseOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
-                if (newsAdapter.shouldRequestNextPage(firstVisibleItem, visibleItemCount, totalItemCount)) {
-                    if (!newsAdapter.isLoadingData() && !newsAdapter.isLoadAllFinished()) {
-                        newsAdapter.setIsLoadingData(true);
-                        presenter.loadMore();
-                    }
-                }
-            }
-        });
-
-        listView.setOnItemClickListener((adapterView, view, position, id) -> {
-            if (position != 0) {
-                presenter.onListItemClick(position - 1);
-            }
-        });
+//        recyclerView.setOnItemClickListener((adapterView, view, position, id) -> {
+//            if (position != 0) {
+//                presenter.onListItemClick(position - 1);
+//            }
+//        });
     }
 
     @Override
-    public ListView getListView() {
-        return listView;
+    public RecyclerView getRecyclerView() {
+        return recyclerView;
     }
 
     @Override
     public void onNewsFetched(List<News> newsList, List<TopNews> topNewsList) {
         newsAdapter.clear();
-        newsAdapter.addAll(newsList);
+        newsAdapter.addNewsList(newsList);
         topNewsViewPagerAdapter.setTopNews(topNewsList);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onMoreLoaded(List<News> newsList) {
-        newsAdapter.setIsLoadingData(false);
-        newsAdapter.addAll(newsList);
+        newsAdapter.addNewsList(newsList);
     }
 
     @Override
@@ -123,30 +136,9 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
     private void initPullToRefresh() {
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.theme_accent));
         swipeRefreshLayout.setRefreshing(true);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new AsyncTask<Void, Void, Void>() {
-
-                    @Override
-                    protected Void doInBackground(Void... params) {
-                        try {
-                            Thread.sleep(3000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Void result) {
-                        super.onPostExecute(result);
-
-                        // Notify PullToRefreshLayout that the refresh has finished
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                }.execute();
-            }
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            presenter.loadMore();
+            swipeRefreshLayout.setRefreshing(true);
         });
     }
 
@@ -164,11 +156,11 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
     }
 
     public void setEmptyText(CharSequence emptyText) {
-        View emptyView = listView.getEmptyView();
-
-        if (emptyText instanceof TextView) {
-            ((TextView) emptyView).setText(emptyText);
-        }
+//        View emptyView = recyclerView.getEmptyView();
+//
+//        if (emptyText instanceof TextView) {
+//            ((TextView) emptyView).setText(emptyText);
+//        }
     }
 
     @Override

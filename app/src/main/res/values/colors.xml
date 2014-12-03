@@ -11,6 +11,12 @@
     <color name="theme_accent">#ff4081</color>
     <color name="theme_window_background">#ECECEC</color>
 
+    <!-- general text colors -->
+    <color name="text">#212121</color>
+    <color name="secondary">#727272</color>
+    <color name="hint">#B8B8B8</color>
+    <color name="dividers">#DADADA</color>
+
     <color name="subscribe_button_background_light_highlight">#e6e6e6</color>
     <color name="subscribe_button_background_light_normal">#ffffff</color>
     <color name="subscribe_button_background_dark_highlight">#303030</color>
