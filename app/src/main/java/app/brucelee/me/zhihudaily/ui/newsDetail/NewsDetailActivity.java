@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -31,6 +33,7 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailView {
     private long newsId;
     @InjectView(R.id.wv_news_content) WebView webView;
     @Inject NewsDetailPresenter presenter;
+    private Toolbar toolbar;
 
     public static Intent newIntent(Context context, long newsId) {
         Intent intent = new Intent(context, NewsDetailActivity.class);
@@ -43,6 +46,19 @@ public class NewsDetailActivity extends BaseActivity implements NewsDetailView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
         ButterKnife.inject(this);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NewsDetailActivity.this.onBackPressed();
+            }
+        });
+
         Bundle extras = getIntent().getExtras();
         if (null != extras) {
             newsId = extras.getLong(INTENT_NEWS_ID);
