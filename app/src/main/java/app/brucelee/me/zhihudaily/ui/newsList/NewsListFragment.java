@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,8 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
     @Inject NewsListPresenter presenter;
     @Inject Application application;
 
+    private boolean loading = false;
+
     public NewsListFragment() {
     }
 
@@ -65,7 +68,8 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
     }
 
     private void initListView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
 //        recyclerView.addHeaderView(headerView);
         recyclerView.setAdapter(newsAdapter);
         recyclerView.addOnItemTouchListener(
@@ -74,35 +78,28 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
                 presenter.onListItemClick(position);
             })
         );
-//        PauseOnScrollListener pauseOnScrollListener = new PauseOnScrollListener(ImageLoader.getInstance(), false, true, this);
-//        recyclerView.setOnScrollListener(new AbsListView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(AbsListView view, int scrollState) {
-//                pauseOnScrollListener.onScrollStateChanged(view, scrollState);
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//                int topRowVerticalPosition =
-//                    (recyclerView == null || recyclerView.getChildCount() == 0) ?
-//                        0 : recyclerView.getChildAt(0).getTop();
-//                swipeRefreshLayout.setEnabled(topRowVerticalPosition >= 0);
-//
-//                pauseOnScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
-//                if (newsAdapter.shouldRequestNextPage(firstVisibleItem, visibleItemCount, totalItemCount)) {
-//                    if (!newsAdapter.isLoadingData() && !newsAdapter.isLoadAllFinished()) {
-//                        newsAdapter.setIsLoadingData(true);
-//                        presenter.loadMore();
-//                    }
-//                }
-//            }
-//        });
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
 
-//        recyclerView.setOnItemClickListener((adapterView, view, position, id) -> {
-//            if (position != 0) {
-//                presenter.onListItemClick(position - 1);
-//            }
-//        });
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                int visibleItemCount = linearLayoutManager.getChildCount();
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
+
+                if (!loading) {
+                    if (totalItemCount > 0 && (visibleItemCount + pastVisiblesItems + 1) >= totalItemCount) {
+                        Log.d(TAG, "Start Load More!");
+                        loading = true;
+                        presenter.loadMore();
+                    }
+                }
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
     }
 
     @Override
@@ -121,6 +118,8 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
     @Override
     public void onMoreLoaded(List<News> newsList) {
         newsAdapter.addNewsList(newsList);
+        swipeRefreshLayout.setRefreshing(false);
+        loading = false;
     }
 
     @Override

@@ -1,22 +1,19 @@
 package app.brucelee.me.zhihudaily.ui.newsDetail;
 
 import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
-import com.google.common.primitives.Chars;
 
 import app.brucelee.me.zhihudaily.bean.NewsDetail;
 import app.brucelee.me.zhihudaily.interactor.NewsDetailInteractor;
-import app.brucelee.me.zhihudaily.ui.OnFetchedListener;
+import app.brucelee.me.zhihudaily.ui.OnFirstLoadListener;
 import rx.Observer;
 import rx.Subscription;
 
 import static com.google.common.base.Optional.fromNullable;
-import static com.google.common.base.Optional.of;
 
 /**
  * Created by bruce on 7/9/14.
  */
-public class NewsDetailPresenterImpl implements NewsDetailPresenter, OnFetchedListener<NewsDetail> {
+public class NewsDetailPresenterImpl implements NewsDetailPresenter, OnFirstLoadListener<NewsDetail> {
 
     private NewsDetailView view;
     private NewsDetailInteractor interactor;
@@ -58,7 +55,7 @@ public class NewsDetailPresenterImpl implements NewsDetailPresenter, OnFetchedLi
 
             @Override
             public void onNext(NewsDetail newsDetail) {
-                onFetched(newsDetail);
+                onFirstLoad(newsDetail);
             }
         });
     }
@@ -124,7 +121,7 @@ public class NewsDetailPresenterImpl implements NewsDetailPresenter, OnFetchedLi
     }
 
     @Override
-    public void onFetched(NewsDetail newsDetail) {
+    public void onFirstLoad(NewsDetail newsDetail) {
         show(newsDetail);
     }
 }

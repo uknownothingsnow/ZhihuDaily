@@ -3,9 +3,8 @@ package app.brucelee.me.zhihudaily.interactor;
 import app.brucelee.me.zhihudaily.bean.NewsDetail;
 import app.brucelee.me.zhihudaily.service.ZhihuService;
 import app.brucelee.me.zhihudaily.support.MyAsyncTask;
+import app.brucelee.me.zhihudaily.ui.OnFirstLoadListener;
 import app.brucelee.me.zhihudaily.ui.newsDetail.NewsDetailTask;
-import app.brucelee.me.zhihudaily.ui.OnFetchedListener;
-import retrofit.RestAdapter;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -23,7 +22,7 @@ public class NewsDetailInteractorImpl implements NewsDetailInteractor {
     }
 
     @Override
-    public void fetch(final long id, final OnFetchedListener<NewsDetail> listener) {
+    public void fetch(final long id, final OnFirstLoadListener<NewsDetail> listener) {
         new NewsDetailTask(service, id, listener).executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
     }
 

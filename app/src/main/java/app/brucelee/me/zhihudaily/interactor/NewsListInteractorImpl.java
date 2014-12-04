@@ -1,12 +1,12 @@
 package app.brucelee.me.zhihudaily.interactor;
 
-import android.content.Context;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import app.brucelee.me.zhihudaily.bean.LatestNewsList;
 import app.brucelee.me.zhihudaily.service.ZhihuService;
-import app.brucelee.me.zhihudaily.ui.OnFetchedListener;
+import app.brucelee.me.zhihudaily.ui.OnFirstLoadListener;
 import app.brucelee.me.zhihudaily.ui.OnMoreLoadedListener;
 import rx.Subscriber;
 import rx.android.observables.AndroidObservable;
@@ -16,7 +16,8 @@ import rx.android.observables.AndroidObservable;
  */
 public class NewsListInteractorImpl implements NewsListInteractor {
 
-    ZhihuService service;
+    private final String TAG = "NewsListInteractorImpl";
+    private ZhihuService service;
     final Handler handler = new Handler();
 
     public NewsListInteractorImpl(ZhihuService service) {
@@ -24,15 +25,16 @@ public class NewsListInteractorImpl implements NewsListInteractor {
     }
 
     @Override
-    public void fetchItems(final OnFetchedListener<LatestNewsList> listener) {
+    public void fetchItems(final OnFirstLoadListener<LatestNewsList> listener) {
         new Thread(() -> {
             final LatestNewsList latestNews = service.getLatestNewsList();
-            handler.post(() -> listener.onFetched(latestNews));
+            handler.post(() -> listener.onFirstLoad(latestNews));
         }).start();
     }
 
     @Override
     public void loadMore(OnMoreLoadedListener<LatestNewsList> listener, final Fragment fragment, String date) {
+        Log.d(TAG, "loadMore date: " + date);
         AndroidObservable.bindFragment(fragment, service.loadMoreNews(date)).subscribe(new Subscriber<LatestNewsList>() {
             @Override
             public void onCompleted() {

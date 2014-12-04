@@ -3,7 +3,7 @@ package app.brucelee.me.zhihudaily.interactor;
 import app.brucelee.me.zhihudaily.bean.TopicList;
 import app.brucelee.me.zhihudaily.service.ZhihuService;
 import app.brucelee.me.zhihudaily.support.MyAsyncTask;
-import app.brucelee.me.zhihudaily.ui.OnFetchedListener;
+import app.brucelee.me.zhihudaily.ui.OnFirstLoadListener;
 import app.brucelee.me.zhihudaily.ui.topicList.TopicListTask;
 
 /**
@@ -18,7 +18,7 @@ public class TopicListInteractorImpl implements TopicListInteractor {
     }
 
     @Override
-    public void fetch(OnFetchedListener<TopicList> listener) {
+    public void fetch(OnFirstLoadListener<TopicList> listener) {
         new TopicListTask(service, listener).executeOnExecutor(MyAsyncTask.THREAD_POOL_EXECUTOR);
     }
 }

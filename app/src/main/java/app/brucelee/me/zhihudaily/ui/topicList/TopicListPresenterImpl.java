@@ -2,12 +2,12 @@ package app.brucelee.me.zhihudaily.ui.topicList;
 
 import app.brucelee.me.zhihudaily.bean.TopicList;
 import app.brucelee.me.zhihudaily.interactor.TopicListInteractor;
-import app.brucelee.me.zhihudaily.ui.OnFetchedListener;
+import app.brucelee.me.zhihudaily.ui.OnFirstLoadListener;
 
 /**
  * Created by bruce on 7/9/14.
  */
-public class TopicListPresenterImpl implements TopicListPresenter, OnFetchedListener<TopicList> {
+public class TopicListPresenterImpl implements TopicListPresenter, OnFirstLoadListener<TopicList> {
     private TopicListView view;
     private TopicListInteractor interactor;
 
@@ -17,7 +17,7 @@ public class TopicListPresenterImpl implements TopicListPresenter, OnFetchedList
     }
 
     @Override
-    public void onFetched(TopicList data) {
+    public void onFirstLoad(TopicList data) {
         view.setItems(data);
     }
 
