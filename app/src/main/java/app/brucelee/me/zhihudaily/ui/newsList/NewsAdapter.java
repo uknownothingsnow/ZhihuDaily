@@ -47,7 +47,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.Holder> {
         return newsList.size();
     }
 
-    public void addNewsList(List<News> newsList) {
+    public void appendNewsList(List<News> newsList) {
         this.newsList.addAll(newsList);
         notifyDataSetChanged();
     }

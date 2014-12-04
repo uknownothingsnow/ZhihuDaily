@@ -33,6 +33,11 @@ public class NewsListPresenterImpl implements NewsListPresenter, OnFirstLoadList
     }
 
     @Override
+    public void firstTimeLoad() {
+        interactor.fetchItems(this);
+    }
+
+    @Override
     public void loadMore() {
         interactor.loadMore(this, ((NewsListFragment) view), lastDate);
     }

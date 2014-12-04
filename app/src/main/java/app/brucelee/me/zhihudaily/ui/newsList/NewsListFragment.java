@@ -2,7 +2,6 @@ package app.brucelee.me.zhihudaily.ui.newsList;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,11 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.PauseOnScrollListener;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;
@@ -110,14 +105,14 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
     @Override
     public void onNewsFetched(List<News> newsList, List<TopNews> topNewsList) {
         newsAdapter.clear();
-        newsAdapter.addNewsList(newsList);
+        newsAdapter.appendNewsList(newsList);
         topNewsViewPagerAdapter.setTopNews(topNewsList);
         swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onMoreLoaded(List<News> newsList) {
-        newsAdapter.addNewsList(newsList);
+        newsAdapter.appendNewsList(newsList);
         swipeRefreshLayout.setRefreshing(false);
         loading = false;
     }
@@ -136,7 +131,7 @@ public class NewsListFragment extends BaseFragment implements NewsListView {
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.theme_accent));
         swipeRefreshLayout.setRefreshing(true);
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            presenter.loadMore();
+            presenter.firstTimeLoad();
             swipeRefreshLayout.setRefreshing(true);
         });
     }
