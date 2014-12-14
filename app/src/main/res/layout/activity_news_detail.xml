@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="app.brucelee.me.zhihudaily.ui.newsDetail.NewsDetailActivity">
@@ -10,7 +11,9 @@
         android:layout_height="?android:attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
-        android:transitionName="actionBar"/>
+        android:transitionName="actionBar"
+        app:theme="@style/GalaxyZooThemeToolbarDarkOverflow"
+        app:popupTheme="@style/Theme.AppCompat"/>
 
     <WebView
         android:layout_below="@+id/toolbar"
