@@ -63,7 +63,6 @@ android {
 dependencies {
     // ================== LIBRARIES ======================
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-    compile project(':AndroidBootstrap')
     compile('de.keyboardsurfer.android.widget:crouton:1.8.4@aar') {
         exclude group: 'com.google.android', module: 'support-v4'
     }
